@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mine_sweeper/screens/game/game_connector.dart';
 
 class Home extends StatelessWidget {
-  Home({@required this.count, @required this.text, @required this.onFabPress, });
+  Home({@required this.initGameBoard });
 
-  final String text;
-  final int count;
-  final void Function() onFabPress;
+  final void Function() initGameBoard;
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +14,13 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.blue,
       ),
       body: Center(
-        child: Column(
-          children: <Widget>[
-            Text(text),
-            Text("O botão foi pressionado $count vezes")
-          ],
+        child: RaisedButton(
+          child: Text("Jogar".toUpperCase()),
+          onPressed: () {
+            initGameBoard();
+            Navigator.push(context, MaterialPageRoute(builder: (context) => GameConnector()));
+          },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: onFabPress,
       ),
     );
   }
