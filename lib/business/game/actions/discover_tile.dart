@@ -1,4 +1,5 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:mine_sweeper/business/game/actions/positionate_bombs.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
 
 class DiscoverTileAction extends ReduxAction<GameState> {
@@ -8,6 +9,7 @@ class DiscoverTileAction extends ReduxAction<GameState> {
 
   @override
   GameState reduce() {
+    if (!state.initializated) dispatch(PositionateBombs(index));
     var tiles = state.tiles;
     var tileContent = state.tiles.elementAt(index).content;
     var newTile = Tile(content: tileContent, state: TileState.discovered);

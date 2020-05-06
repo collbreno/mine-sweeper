@@ -1,6 +1,5 @@
 import 'package:async_redux/async_redux.dart';
 import '../models/game_state.dart';
-import 'dart:math';
 
 class InitBoardAction extends ReduxAction<GameState> {
   InitBoardAction({this.numberOfBombs, this.horizontalTiles, this.verticalTiles});
@@ -9,32 +8,18 @@ class InitBoardAction extends ReduxAction<GameState> {
   final int horizontalTiles;
 
   GameState reduce() {
-    List<int> bombIndexes = _generateBombIndexes();
-    List<Tile> tiles = _generateTiles(bombIndexes);
+    var tiles = _createEmptyTiles();
     return state.copy(
       horizontalTiles: this.horizontalTiles,
       numberOfBombs: this.numberOfBombs,
       verticalTiles: this.verticalTiles,
-      tiles: tiles
+      tiles: tiles,
+      initializated: false
     );
   }
 
-  List<int> _generateBombIndexes(){
-    int nTiles = verticalTiles * horizontalTiles;
-    var bombIndexes = List<int>.generate(nTiles, (index) => index);
-    for (int i = 0; i < nTiles - numberOfBombs; i++){
-      bombIndexes.removeAt(Random().nextInt(bombIndexes.length));
-    }
-    return bombIndexes;
+  List<Tile> _createEmptyTiles(){
+    return List<Tile>.generate(verticalTiles*horizontalTiles, (index) => Tile(content: TileContent.empty, state: TileState.none));
   }
 
-  List<Tile> _generateTiles(List<int> bombIndexes){
-    var tiles = List<Tile>.generate(verticalTiles*horizontalTiles, (int index){
-      if (bombIndexes.contains(index)){
-        return Tile(content: TileContent.bomb, state: TileState.none);
-      }
-      return Tile(content: TileContent.empty, state: TileState.none);
-    });
-    return tiles;
-  }
 }
