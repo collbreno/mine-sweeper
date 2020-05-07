@@ -8,14 +8,14 @@ class Game extends StatelessWidget {
     @required this.horizontalTiles, 
     @required this.numberOfBombs,
     @required this.tiles,
-    @required this.discoverTile
+    @required this.makeAMove
   });
 
   final int verticalTiles;
   final int horizontalTiles;
   final int numberOfBombs;
   final List<Tile> tiles;
-  final void Function(int) discoverTile;
+  final void Function(int) makeAMove;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class Game extends StatelessWidget {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: horizontalTiles),
               itemBuilder: (context, index){
                 return TileSquare(
-                  onPress: () => discoverTile(index),
+                  onPress: () => makeAMove(index),
                   tile: tiles.elementAt(index),
                 );
               },

@@ -31,8 +31,10 @@ class TileSquare extends StatelessWidget {
     switch (tile.content) {
       case TileContent.bomb:
         return renderBomb(); 
-      default:
+      case TileContent.empty:
         return renderEmpty();
+      default:
+        return renderNumber();
     }
   }
 
@@ -43,7 +45,14 @@ class TileSquare extends StatelessWidget {
   }
 
   Widget renderEmpty() {
-    return Container(color: Colors.white,);
+    return Container();
+  }
+
+  Widget renderNumber() {
+    return Container(
+      alignment: Alignment.center,
+      child: Text(tile.content.index.toString(), style: TextStyle(fontWeight: FontWeight.bold),),
+    );
   }
 
 }

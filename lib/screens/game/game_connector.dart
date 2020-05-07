@@ -1,6 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:mine_sweeper/business/game/actions/discover_tile.dart';
+import 'package:mine_sweeper/business/game/actions/make_a_move.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
 import 'package:mine_sweeper/screens/game/game.dart';
 
@@ -16,7 +16,7 @@ class GameConnector extends StatelessWidget {
           verticalTiles: vm.verticalTiles,
           numberOfBombs: vm.numberOfBombs,
           tiles: vm.tiles,
-          discoverTile: vm.discoverTile,
+          makeAMove: vm.makeAMove,
         );
       },
     );
@@ -30,14 +30,14 @@ class ViewModel extends BaseModel<GameState> {
   int horizontalTiles;
   int numberOfBombs;
   List<Tile> tiles;
-  void Function(int) discoverTile;
+  void Function(int) makeAMove;
 
   ViewModel.build({
     @required this.verticalTiles,
     @required this.horizontalTiles,
     @required this.numberOfBombs,
     @required this.tiles,
-    @required this.discoverTile
+    @required this.makeAMove
   }) : super(equals: [
       verticalTiles, 
       horizontalTiles, 
@@ -53,7 +53,7 @@ class ViewModel extends BaseModel<GameState> {
       numberOfBombs: state.numberOfBombs,
       tiles: state.tiles,
       verticalTiles: state.verticalTiles,
-      discoverTile: (index) => dispatch(DiscoverTileAction(index))
+      makeAMove: (index) => dispatch(MakeAMoveAction(index))
     );
   }
 }
