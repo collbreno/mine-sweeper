@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:async_redux/async_redux.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
+import 'package:mine_sweeper/business/game/services/neighborhood_service.dart';
 
 class PositionateBombsAction extends ReduxAction<GameState> {
   PositionateBombsAction(this.indexClicked);
@@ -20,7 +21,7 @@ class PositionateBombsAction extends ReduxAction<GameState> {
   List<int> _generateBombIndexes(){
     int nTiles = state.verticalTiles * state.horizontalTiles;
     var bombIndexes = List<int>.generate(nTiles, (index) => index); //Gera uma lista com todos os indexes possíveis para posicionar bombas
-    var validNeighbors = _getValidNeighborsIndexes(indexClicked);
+    var validNeighbors = NeighborhoodService().getNeighborsIndexes(indexClicked);
     for (int i = 0; i < validNeighbors.length; i++){
       bombIndexes.remove(validNeighbors.elementAt(i)); //Remove o index de todos os vizinhos
     }
@@ -61,32 +62,11 @@ class PositionateBombsAction extends ReduxAction<GameState> {
 
   int _getAmmountOfBombsInNeighborhood(List<Tile> tiles, int index){
     int result = 0;
-    var validNeighborsIndexes = _getValidNeighborsIndexes(index);
+    var validNeighborsIndexes = NeighborhoodService().getNeighborsIndexes(index);
     for (int i = 0; i < validNeighborsIndexes.length; i++){
       if (tiles.elementAt(validNeighborsIndexes.elementAt(i)).content == TileContent.bomb) result++;
     }
     return result;
-  }
-
-  List<int> _getValidNeighborsIndexes(int index) {
-    return _getNeighborsIndexes(index).where((neighborIndex) => _validateNeighborIndex(neighborIndex)).toList();
-  }
-
-  List<int> _getNeighborsIndexes(int index){
-    return [
-      index - state.horizontalTiles - 1,
-      index - state.horizontalTiles,
-      index - state.horizontalTiles + 1,
-      index -1 ,
-      index + 1,
-      index + state.horizontalTiles - 1,
-      index + state.horizontalTiles,
-      index + state.horizontalTiles + 1
-    ];
-  }
-
-  bool _validateNeighborIndex(int neighborIndex) {
-    return neighborIndex >= 0 && neighborIndex < (state.horizontalTiles*state.verticalTiles);
   }
 
 

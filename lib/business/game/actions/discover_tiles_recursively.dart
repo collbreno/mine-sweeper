@@ -2,6 +2,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:mine_sweeper/business/game/actions/discover_tile.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
+import 'package:mine_sweeper/business/game/services/neighborhood_service.dart';
 
 class DiscoverTilesRecursivelyAction extends ReduxAction<GameState> {
   DiscoverTilesRecursivelyAction(this.index);
@@ -9,7 +10,9 @@ class DiscoverTilesRecursivelyAction extends ReduxAction<GameState> {
 
   GameState reduce() {
     dispatch(DiscoverTileAction(index));
-    List<int> neighborIndexes = _getValidNeighborsIndexes();
+    List<int> neighborIndexes = NeighborhoodService().getNeighborsIndexes(index);
+    print('neighbor indexes');
+    print(neighborIndexes);
     for (int i = 0; i < neighborIndexes.length; i++){
       int neighborIndex = neighborIndexes.elementAt(i);
       Tile neighbor= state.tiles.elementAt(neighborIndex);
@@ -24,30 +27,6 @@ class DiscoverTilesRecursivelyAction extends ReduxAction<GameState> {
     }
     return null;
   }
-
-
-
-  List<int> _getValidNeighborsIndexes() {
-    return _getNeighborsIndexes().where((neighborIndex) => _validateNeighborIndex(neighborIndex)).toList();
-  }
-
-  List<int> _getNeighborsIndexes(){
-    return [
-      index - state.horizontalTiles - 1,
-      index - state.horizontalTiles,
-      index - state.horizontalTiles + 1,
-      index -1 ,
-      index + 1,
-      index + state.horizontalTiles - 1,
-      index + state.horizontalTiles,
-      index + state.horizontalTiles + 1
-    ];
-  }
-
-  bool _validateNeighborIndex(int neighborIndex) {
-    return neighborIndex >= 0 && neighborIndex < (state.horizontalTiles*state.verticalTiles);
-  }
-
 
 
 }
