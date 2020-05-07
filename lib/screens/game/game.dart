@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mine_sweeper/business/game/models/game_state.dart';
+import 'package:mine_sweeper/business/game/models/tile.dart';
 import 'package:mine_sweeper/screens/game/tile_widget.dart';
 
 class Game extends StatelessWidget {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
+import 'package:mine_sweeper/business/game/models/tile.dart';
 
 class TileSquare extends StatelessWidget {
   TileSquare({@required this.onPress, @required this.tile});

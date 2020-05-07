@@ -4,6 +4,7 @@ import 'package:mine_sweeper/business/game/actions/discover_tiles_recursively.da
 import 'package:mine_sweeper/business/game/actions/explode_bombs.dart';
 import 'package:mine_sweeper/business/game/actions/positionate_bombs.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
+import 'package:mine_sweeper/business/game/models/tile.dart';
 
 class MakeAMoveAction extends ReduxAction<GameState> {
   MakeAMoveAction(this.index);

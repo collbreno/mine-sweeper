@@ -1,5 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
+import 'package:mine_sweeper/business/game/models/tile.dart';
 
 class DiscoverTileAction extends ReduxAction<GameState> {
   DiscoverTileAction(this.index);
