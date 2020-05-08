@@ -8,13 +8,15 @@ class Game extends StatelessWidget {
     @required this.horizontalTiles, 
     @required this.numberOfBombs,
     @required this.tiles,
-    @required this.makeAMove
+    @required this.makeAMove,
+    @required this.toggleFlag
   });
 
   final int verticalTiles;
   final int horizontalTiles;
   final int numberOfBombs;
   final List<Tile> tiles;
+  final void Function(int) toggleFlag;
   final void Function(int) makeAMove;
 
   @override
@@ -33,6 +35,7 @@ class Game extends StatelessWidget {
               itemBuilder: (context, index){
                 return TileSquare(
                   onPress: () => makeAMove(index),
+                  onLongPress: () => toggleFlag(index),
                   tile: tiles.elementAt(index),
                 );
               },
