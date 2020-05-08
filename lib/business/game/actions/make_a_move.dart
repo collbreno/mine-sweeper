@@ -6,6 +6,8 @@ import 'package:mine_sweeper/business/game/actions/positionate_bombs.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 
+
+// Essa ação é disparada quando o usuário clica em uma casa qualquer
 class MakeAMoveAction extends ReduxAction<GameState> {
   MakeAMoveAction(this.index);
 

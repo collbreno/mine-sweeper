@@ -2,6 +2,8 @@ import 'package:async_redux/async_redux.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 
+
+// Essa ação é disparada quando o usuário clica e pressiona em alguma casa
 class ToggleFlagAction extends ReduxAction<GameState> {
   ToggleFlagAction(this.index);
 

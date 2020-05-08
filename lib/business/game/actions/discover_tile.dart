@@ -2,6 +2,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 
+// Essa ação é disparada quando o usuário clica em uma casa sem bomba
 class DiscoverTileAction extends ReduxAction<GameState> {
   DiscoverTileAction(this.index);
 

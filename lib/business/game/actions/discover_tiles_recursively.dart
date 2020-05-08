@@ -4,6 +4,7 @@ import 'package:mine_sweeper/business/game/models/game_state.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 import 'package:mine_sweeper/business/game/services/neighborhood_service.dart';
 
+// Essa ação é disparada quando o usuário clica em uma casa sem bomba e sem bomba na vizinhança
 class DiscoverTilesRecursivelyAction extends ReduxAction<GameState> {
   DiscoverTilesRecursivelyAction(this.index);
   final int index;
