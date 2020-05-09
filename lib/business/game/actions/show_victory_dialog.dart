@@ -3,7 +3,8 @@ import 'package:mine_sweeper/business/game/models/game_state.dart';
 
 class ShowVictoryDialogAction extends ReduxAction<GameState> {
   @override
-  GameState reduce() {
+  Future<GameState> reduce() async {
+    await store.waitCondition((state) => state.tilesToDiscover <= 0 );
     return state.copy(showVictoryDialogEvt: Event());
   }
 }

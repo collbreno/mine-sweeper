@@ -5,6 +5,7 @@ class GameState {
   final int horizontalTiles;
   final int verticalTiles;
   final int numberOfBombs;
+  final int tilesToDiscover;
   final List<Tile> tiles;
   final bool initializated;
   final Event showVictoryDialogEvt;
@@ -15,13 +16,15 @@ class GameState {
     this.numberOfBombs,
     this.tiles,
     this.initializated,
-    this.showVictoryDialogEvt
+    this.showVictoryDialogEvt,
+    this.tilesToDiscover
   });
 
   GameState copy({ 
     int horizontalTiles, 
     int verticalTiles, 
     int numberOfBombs, 
+    int tilesToDiscover,
     List<Tile>tiles,
     bool initializated,
     Event showVictoryDialogEvt
@@ -30,6 +33,7 @@ class GameState {
       horizontalTiles: horizontalTiles ?? this.horizontalTiles,
       numberOfBombs: numberOfBombs ?? this.numberOfBombs,
       verticalTiles: verticalTiles ?? this.verticalTiles,
+      tilesToDiscover: tilesToDiscover ?? this.tilesToDiscover,
       tiles: tiles ?? this.tiles,
       initializated: initializated ?? this.initializated,
       showVictoryDialogEvt: showVictoryDialogEvt ?? this.showVictoryDialogEvt
@@ -40,6 +44,7 @@ class GameState {
     GameState(
       horizontalTiles: 0,
       verticalTiles: 0,
+      tilesToDiscover: 0,
       numberOfBombs: 0,
       tiles: List<Tile>(),
       initializated: false,
@@ -54,6 +59,7 @@ class GameState {
                               horizontalTiles == other.horizontalTiles && 
                               verticalTiles == other.verticalTiles && 
                               initializated == other.initializated &&
+                              tilesToDiscover == other.tilesToDiscover &&
                               numberOfBombs == other.numberOfBombs;
 
   @override
@@ -61,6 +67,7 @@ class GameState {
                       verticalTiles.hashCode ^ 
                       numberOfBombs.hashCode ^ 
                       initializated.hashCode ^
+                      tilesToDiscover.hashCode ^
                       tiles.map((tile) => tile.content).hashCode ^
                       tiles.map((tile) => tile.state).hashCode;
 }

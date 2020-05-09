@@ -13,9 +13,10 @@ class InitBoardAction extends ReduxAction<GameState> {
   GameState reduce() {
     var tiles = _createEmptyTiles();
     return state.copy(
-      horizontalTiles: this.horizontalTiles,
-      numberOfBombs: this.numberOfBombs,
-      verticalTiles: this.verticalTiles,
+      horizontalTiles: horizontalTiles,
+      numberOfBombs: numberOfBombs,
+      verticalTiles: verticalTiles, 
+      tilesToDiscover: verticalTiles * horizontalTiles - numberOfBombs,
       tiles: tiles,
       initializated: false
     );

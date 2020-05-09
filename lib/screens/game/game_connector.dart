@@ -1,5 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:mine_sweeper/business/game/actions/init_board.dart';
 import 'package:mine_sweeper/business/game/actions/make_a_move.dart';
 import 'package:mine_sweeper/business/game/actions/toggle_flag.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
@@ -21,6 +22,7 @@ class GameConnector extends StatelessWidget {
           makeAMove: vm.makeAMove,
           toggleFlag: vm.toggleFlag,
           showVictoryDialogEvt: vm.showVictoryDialogEvt,
+          newGame: vm.newGame,
         );
       },
     );
@@ -36,6 +38,7 @@ class ViewModel extends BaseModel<GameState> {
   List<Tile> tiles;
   void Function(int) makeAMove;
   void Function(int) toggleFlag;
+  void Function() newGame;
   Event showVictoryDialogEvt;
 
   ViewModel.build({
@@ -46,6 +49,7 @@ class ViewModel extends BaseModel<GameState> {
     @required this.makeAMove,
     @required this.toggleFlag,
     @required this.showVictoryDialogEvt,
+    @required this.newGame
   }) : super(equals: [
       verticalTiles, 
       horizontalTiles, 
@@ -63,6 +67,9 @@ class ViewModel extends BaseModel<GameState> {
       tiles: state.tiles,
       showVictoryDialogEvt: state.showVictoryDialogEvt,
       verticalTiles: state.verticalTiles,
+      newGame: () => dispatch(InitBoardAction(
+        horizontalTiles: 10, verticalTiles: 15, numberOfBombs: 27
+      )),
       toggleFlag: (index) => dispatch(ToggleFlagAction(index)),
       makeAMove: (index) => dispatch(MakeAMoveAction(index))
     );

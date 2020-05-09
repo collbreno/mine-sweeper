@@ -2,6 +2,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 import 'package:mine_sweeper/screens/game/tile_widget.dart';
+import 'package:mine_sweeper/screens/game/victory_dialog.dart';
 
 class Game extends StatefulWidget {
   Game({ 
@@ -11,6 +12,7 @@ class Game extends StatefulWidget {
     @required this.tiles,
     @required this.makeAMove,
     @required this.toggleFlag,
+    @required this.newGame,
     @required this.showVictoryDialogEvt,
   });
 
@@ -20,6 +22,7 @@ class Game extends StatefulWidget {
   final List<Tile> tiles;
   final void Function(int) toggleFlag;
   final void Function(int) makeAMove;
+  final void Function() newGame;
   final Event showVictoryDialogEvt;
 
   @override
@@ -40,7 +43,9 @@ class _GameState extends State<Game> {
         showDialog(
           context: context,
           builder: (context){
-            return AlertDialog(title: Text("Teste"),);
+            return VictoryDialog(
+              newGame: widget.newGame,
+            );
           }
         );
       });
