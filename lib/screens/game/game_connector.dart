@@ -20,6 +20,7 @@ class GameConnector extends StatelessWidget {
           tiles: vm.tiles,
           makeAMove: vm.makeAMove,
           toggleFlag: vm.toggleFlag,
+          showVictoryDialogEvt: vm.showVictoryDialogEvt,
         );
       },
     );
@@ -35,6 +36,7 @@ class ViewModel extends BaseModel<GameState> {
   List<Tile> tiles;
   void Function(int) makeAMove;
   void Function(int) toggleFlag;
+  Event showVictoryDialogEvt;
 
   ViewModel.build({
     @required this.verticalTiles,
@@ -42,13 +44,15 @@ class ViewModel extends BaseModel<GameState> {
     @required this.numberOfBombs,
     @required this.tiles,
     @required this.makeAMove,
-    @required this.toggleFlag
+    @required this.toggleFlag,
+    @required this.showVictoryDialogEvt,
   }) : super(equals: [
       verticalTiles, 
       horizontalTiles, 
       numberOfBombs, 
       tiles.map((tile) => tile.state),
-      tiles.map((tile) => tile.content)
+      tiles.map((tile) => tile.content),
+      showVictoryDialogEvt
     ]);
 
   @override
@@ -57,6 +61,7 @@ class ViewModel extends BaseModel<GameState> {
       horizontalTiles: state.horizontalTiles,
       numberOfBombs: state.numberOfBombs,
       tiles: state.tiles,
+      showVictoryDialogEvt: state.showVictoryDialogEvt,
       verticalTiles: state.verticalTiles,
       toggleFlag: (index) => dispatch(ToggleFlagAction(index)),
       makeAMove: (index) => dispatch(MakeAMoveAction(index))

@@ -1,3 +1,4 @@
+import 'package:async_redux/async_redux.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 
 class GameState {
@@ -6,13 +7,15 @@ class GameState {
   final int numberOfBombs;
   final List<Tile> tiles;
   final bool initializated;
+  final Event showVictoryDialogEvt;
 
   GameState({
     this.horizontalTiles,
     this.verticalTiles,
     this.numberOfBombs,
     this.tiles,
-    this.initializated
+    this.initializated,
+    this.showVictoryDialogEvt
   });
 
   GameState copy({ 
@@ -20,14 +23,16 @@ class GameState {
     int verticalTiles, 
     int numberOfBombs, 
     List<Tile>tiles,
-    bool initializated
+    bool initializated,
+    Event showVictoryDialogEvt
   }) {
     return GameState(
       horizontalTiles: horizontalTiles ?? this.horizontalTiles,
       numberOfBombs: numberOfBombs ?? this.numberOfBombs,
       verticalTiles: verticalTiles ?? this.verticalTiles,
       tiles: tiles ?? this.tiles,
-      initializated: initializated ?? this.initializated
+      initializated: initializated ?? this.initializated,
+      showVictoryDialogEvt: showVictoryDialogEvt ?? this.showVictoryDialogEvt
     );
   }
 
@@ -37,7 +42,8 @@ class GameState {
       verticalTiles: 0,
       numberOfBombs: 0,
       tiles: List<Tile>(),
-      initializated: false
+      initializated: false,
+      showVictoryDialogEvt: Event.spent()
     );
 
   @override

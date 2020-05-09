@@ -1,15 +1,17 @@
+import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 import 'package:mine_sweeper/screens/game/tile_widget.dart';
 
-class Game extends StatelessWidget {
+class Game extends StatefulWidget {
   Game({ 
     @required this.verticalTiles, 
     @required this.horizontalTiles, 
     @required this.numberOfBombs,
     @required this.tiles,
     @required this.makeAMove,
-    @required this.toggleFlag
+    @required this.toggleFlag,
+    @required this.showVictoryDialogEvt,
   });
 
   final int verticalTiles;
@@ -18,6 +20,32 @@ class Game extends StatelessWidget {
   final List<Tile> tiles;
   final void Function(int) toggleFlag;
   final void Function(int) makeAMove;
+  final Event showVictoryDialogEvt;
+
+  @override
+  _GameState createState() => _GameState();
+}
+
+class _GameState extends State<Game> {
+
+  @override
+  void didUpdateWidget(Game oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    consumeEvents();
+  }
+
+  void consumeEvents() {
+    if (widget.showVictoryDialogEvt.consume()) {
+      WidgetsBinding.instance.addPostFrameCallback((_){
+        showDialog(
+          context: context,
+          builder: (context){
+            return AlertDialog(title: Text("Teste"),);
+          }
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +58,13 @@ class Game extends StatelessWidget {
         children: <Widget>[
           Flexible(
             child: GridView.builder(
-              itemCount: this.tiles.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: horizontalTiles),
+              itemCount: this.widget.tiles.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: widget.horizontalTiles),
               itemBuilder: (context, index){
                 return TileSquare(
-                  onPress: () => makeAMove(index),
-                  onLongPress: () => toggleFlag(index),
-                  tile: tiles.elementAt(index),
+                  onPress: () => widget.makeAMove(index),
+                  onLongPress: () => widget.toggleFlag(index),
+                  tile: widget.tiles.elementAt(index),
                 );
               },
             ),
