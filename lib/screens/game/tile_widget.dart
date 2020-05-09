@@ -26,8 +26,8 @@ class TileSquare extends StatelessWidget {
     return RaisedButton(
       shape: BeveledRectangleBorder(),
       color: Colors.blueAccent,
-      onPressed: () => onPress(),
-      onLongPress: () => onLongPress(),
+      onPressed: onPress,
+      onLongPress: onLongPress,
     );
   }
 
@@ -37,8 +37,8 @@ class TileSquare extends StatelessWidget {
       color: Colors.blueAccent,
       padding: EdgeInsets.all(0),
       child: Icon(Icons.flag, color: Colors.red[800],),
-      onPressed: () => onPress(),
-      onLongPress: () => onLongPress(),
+      onPressed: onPress,
+      onLongPress: onLongPress,
     );
   }
 
@@ -64,9 +64,12 @@ class TileSquare extends StatelessWidget {
   }
 
   Widget renderNumber() {
-    return Container(
-      alignment: Alignment.center,
-      child: Text(tile.content.index.toString(), style: TextStyle(fontWeight: FontWeight.bold),),
+    return InkWell(
+      onTap: onPress,
+      child: Container(
+        alignment: Alignment.center,
+        child: Text(tile.content.index.toString(), style: TextStyle(fontWeight: FontWeight.bold),),
+      ),
     );
   }
 
