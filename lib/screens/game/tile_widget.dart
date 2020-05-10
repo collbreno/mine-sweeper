@@ -7,6 +7,9 @@ class TileSquare extends StatelessWidget {
   final void Function() onPress;
   final void Function() onLongPress;
   final Tile tile;
+  final Color backgroundColor = Colors.blue[50];
+  final Color buttonBackgroundColor = Colors.blueAccent;
+  final Color borderColor = Colors.blue[300];
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,7 @@ class TileSquare extends StatelessWidget {
   Widget renderButton(){
     return RaisedButton(
       shape: BeveledRectangleBorder(),
-      color: Colors.blueAccent,
+      color: buttonBackgroundColor,
       onPressed: onPress,
       onLongPress: onLongPress,
     );
@@ -34,7 +37,7 @@ class TileSquare extends StatelessWidget {
   Widget renderFlagButton(){
     return RaisedButton(
       shape: BeveledRectangleBorder(),
-      color: Colors.blueAccent,
+      color: buttonBackgroundColor,
       padding: EdgeInsets.all(0),
       child: Icon(Icons.flag, color: Colors.red[800],),
       onPressed: onPress,
@@ -60,17 +63,47 @@ class TileSquare extends StatelessWidget {
   }
 
   Widget renderEmpty() {
-    return Container();
+    return Material(
+      color: backgroundColor,
+      shape: BeveledRectangleBorder(side: BorderSide(width: 0.1, color: borderColor)),
+    );
   }
 
   Widget renderNumber() {
-    return InkWell(
-      onTap: onPress,
-      child: Container(
-        alignment: Alignment.center,
-        child: Text(tile.content.index.toString(), style: TextStyle(fontWeight: FontWeight.bold),),
+    return Material(
+      shape: BeveledRectangleBorder(side: BorderSide(width: 0.1, color: borderColor)),
+      color: backgroundColor,
+      child: InkWell(
+        onTap: onPress,
+        highlightColor: Colors.blue[100],
+        splashColor: Colors.blue[200],
+        child: Center(
+          child: Text(
+            tile.content.index.toString(), 
+            style: TextStyle(
+              fontWeight: FontWeight.w500, 
+              fontFamily: 'RussoOne',
+              fontSize: 16,
+              color: getNumberColor(tile.content.index)
+            ),
+          ),
+        ),
       ),
     );
+  }
+
+  Color getNumberColor(int number) {
+    Map<int,Color> colors = Map<int,Color>();
+    colors[1] = Colors.indigoAccent[700];
+    colors[2] = Colors.green[700];
+    colors[3] = Colors.red[700];
+    colors[4] = Colors.blue[900];
+    colors[5] = Colors.brown[600];
+    colors[6] = Colors.cyan;
+    colors[7] = Colors.black;
+    colors[8] = Colors.grey;
+    colors[9] = Colors.orange[900];
+    return colors[number];
   }
 
 }

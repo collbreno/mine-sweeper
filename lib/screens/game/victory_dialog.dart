@@ -8,7 +8,19 @@ class VictoryDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Parabéns"),
+      title: Row(
+        children: <Widget>[
+          Text("Parabéns!"),
+          Padding(
+            padding: EdgeInsets.only(left: 16.0),
+            child: Image(
+              image: AssetImage('assets/images/cup.png'),
+              width: 24,
+              height: 24,
+            ),
+          ),
+        ],
+      ),
       content: Text("Você venceu com um tempo de ..."), //TODO: inserir tempo,
       actions: <Widget>[
         FlatButton(
