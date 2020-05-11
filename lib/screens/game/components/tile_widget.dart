@@ -8,6 +8,7 @@ class TileSquare extends StatelessWidget {
   final void Function() onLongPress;
   final Tile tile;
   final Color backgroundColor = Colors.blue[50];
+  final Color bombBackgroundColor = Colors.red[900];
   final Color buttonBackgroundColor = Colors.blueAccent;
   final Color borderColor = Colors.blue[300];
 
@@ -57,8 +58,13 @@ class TileSquare extends StatelessWidget {
   }
 
   Widget renderBomb(){
-    return Center(
-      child: Icon(Icons.ac_unit),
+    return Material(
+      color: bombBackgroundColor,
+      child: Padding(
+        padding: EdgeInsets.all(6.0),
+        child: Center(child: Image.asset('assets/images/bomb.png')),
+      ),
+      shape: BeveledRectangleBorder(side: BorderSide(width: 0.1, color: borderColor)),
     );
   }
 
