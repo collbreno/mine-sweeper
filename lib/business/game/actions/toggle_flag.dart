@@ -11,12 +11,15 @@ class ToggleFlagAction extends ReduxAction<GameState> {
 
   @override
   GameState reduce() {
+    if (!state.initializated) return null; // Só deixa marcar bandeiras quando o jogo já estiver inicializado
     var tiles = state.tiles;
     var tileClicked = state.tiles.elementAt(index);
-    var newTile = Tile(content: tileClicked.content, state: tileClicked.state == TileState.flag ? TileState.none : TileState.flag);
+    bool isAlreadyMarked = tileClicked.state == TileState.flag;
+    var newTile = Tile(content: tileClicked.content, state: isAlreadyMarked ? TileState.none : TileState.flag);
     tiles.replaceRange(index, index+1, [newTile]);
     return state.copy(
-      tiles: tiles
+      tiles: tiles,
+      numberOfBombs: state.numberOfBombs + (isAlreadyMarked ? 1 : -1)
     );
   }
 }

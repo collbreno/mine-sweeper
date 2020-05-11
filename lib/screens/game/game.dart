@@ -1,8 +1,9 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
-import 'package:mine_sweeper/screens/game/tile_widget.dart';
-import 'package:mine_sweeper/screens/game/victory_dialog.dart';
+import 'package:mine_sweeper/screens/game/components/app_bar_item.dart';
+import 'package:mine_sweeper/screens/game/components/tile_widget.dart';
+import 'package:mine_sweeper/screens/game/components/victory_dialog.dart';
 
 class Game extends StatefulWidget {
   Game({ 
@@ -56,8 +57,18 @@ class _GameState extends State<Game> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Game"),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            AppBarItem(imagePath: 'assets/images/bomb.png', text: ": ${widget.numberOfBombs}",),
+            Padding(
+              padding: EdgeInsets.only(right: 50),
+              child: AppBarItem(imagePath: 'assets/images/timer.png', text: ": 13s",),
+            ),
+          ],
+        ),
         backgroundColor: Colors.black,
+        
       ),
       body: Column(
         children: <Widget>[

@@ -43,7 +43,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets/images/cup.png
+   - assets/images/cup.png    # flaticon.com/free-icon/cup_625398
+   - assets/images/bomb.png   # flaticon.com/free-icon/round-bomb-with-burning-wick_20516
+   - assets/images/timer.png  # flaticon.com/free-icon/timer_2421935
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
