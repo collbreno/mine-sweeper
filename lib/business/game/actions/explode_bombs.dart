@@ -1,6 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
+import 'package:mine_sweeper/business/game/services/stopwatch_service.dart';
 
 // Essa ação é disparada quando o usuário clica em uma bomba, acabando o jogo
 class ExplodeBombsAction extends ReduxAction<GameState> {
@@ -9,6 +10,7 @@ class ExplodeBombsAction extends ReduxAction<GameState> {
   final int firstBombIndex;
 
   GameState reduce() {
+    StopwatchService().stop();
     var tiles = state.tiles;
     var newTiles = List<Tile>.generate(tiles.length, (index){
       var tile = tiles.elementAt(index);

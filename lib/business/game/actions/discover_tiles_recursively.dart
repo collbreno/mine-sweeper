@@ -12,11 +12,8 @@ class DiscoverTilesRecursivelyAction extends ReduxAction<GameState> {
   GameState reduce() {
     dispatch(DiscoverTileAction(index));
     List<int> neighborIndexes = NeighborhoodService().getNeighborsIndexes(index);
-    print('neighbor indexes');
-    print(neighborIndexes);
-    for (int i = 0; i < neighborIndexes.length; i++){
-      int neighborIndex = neighborIndexes.elementAt(i);
-      Tile neighbor= state.tiles.elementAt(neighborIndex);
+    for (int neighborIndex in neighborIndexes){
+      Tile neighbor = state.tiles.elementAt(neighborIndex);
       if (neighbor.state == TileState.none){
         if (neighbor.content == TileContent.empty){
           dispatch(DiscoverTilesRecursivelyAction(neighborIndex));

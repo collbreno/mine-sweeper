@@ -9,6 +9,7 @@ class GameState {
   final List<Tile> tiles;
   final bool initializated;
   final Event showVictoryDialogEvt;
+  final Duration timeElapsed;
 
   GameState({
     this.horizontalTiles,
@@ -17,7 +18,8 @@ class GameState {
     this.tiles,
     this.initializated,
     this.showVictoryDialogEvt,
-    this.tilesToDiscover
+    this.tilesToDiscover,
+    this.timeElapsed
   });
 
   GameState copy({ 
@@ -27,7 +29,8 @@ class GameState {
     int tilesToDiscover,
     List<Tile>tiles,
     bool initializated,
-    Event showVictoryDialogEvt
+    Event showVictoryDialogEvt,
+    Duration timeElapsed
   }) {
     return GameState(
       horizontalTiles: horizontalTiles ?? this.horizontalTiles,
@@ -36,7 +39,8 @@ class GameState {
       tilesToDiscover: tilesToDiscover ?? this.tilesToDiscover,
       tiles: tiles ?? this.tiles,
       initializated: initializated ?? this.initializated,
-      showVictoryDialogEvt: showVictoryDialogEvt ?? this.showVictoryDialogEvt
+      showVictoryDialogEvt: showVictoryDialogEvt ?? this.showVictoryDialogEvt,
+      timeElapsed: timeElapsed ?? this.timeElapsed
     );
   }
 
@@ -48,7 +52,8 @@ class GameState {
       numberOfBombs: 0,
       tiles: List<Tile>(),
       initializated: false,
-      showVictoryDialogEvt: Event.spent()
+      showVictoryDialogEvt: Event.spent(),
+      timeElapsed: Duration()
     );
 
   @override
@@ -59,6 +64,8 @@ class GameState {
                               horizontalTiles == other.horizontalTiles && 
                               verticalTiles == other.verticalTiles && 
                               initializated == other.initializated &&
+                              timeElapsed == other.timeElapsed &&
+                              timeElapsed.inMilliseconds == other.timeElapsed.inMilliseconds &&
                               tilesToDiscover == other.tilesToDiscover &&
                               numberOfBombs == other.numberOfBombs;
 
@@ -67,6 +74,8 @@ class GameState {
                       verticalTiles.hashCode ^ 
                       numberOfBombs.hashCode ^ 
                       initializated.hashCode ^
+                      timeElapsed.hashCode ^
+                      timeElapsed.inMilliseconds.hashCode ^
                       tilesToDiscover.hashCode ^
                       tiles.map((tile) => tile.content).hashCode ^
                       tiles.map((tile) => tile.state).hashCode;

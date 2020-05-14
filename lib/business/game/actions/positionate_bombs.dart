@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:async_redux/async_redux.dart';
-import 'package:mine_sweeper/business/game/actions/show_victory_dialog.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 import 'package:mine_sweeper/business/game/services/neighborhood_service.dart';
@@ -12,13 +11,10 @@ class PositionateBombsAction extends ReduxAction<GameState> {
   final int indexClicked;
 
    GameState reduce() {
-    dispatch(ShowVictoryDialogAction());
     List<int> bombIndexes = _generateBombIndexes();
-    List<Tile> tilesWithBombs = _generateTilesWithBombs(bombIndexes);
-    List<Tile> tiles = _putNumbersOnTiles(tilesWithBombs);
+    List<Tile> tiles = _generateTilesWithBombs(bombIndexes);
     return state.copy(
       tiles: tiles,
-      initializated: true
     );
   }
 
@@ -46,32 +42,5 @@ class PositionateBombsAction extends ReduxAction<GameState> {
     });
     return tiles;
   }
-
-  List<Tile> _putNumbersOnTiles(List<Tile> tiles){
-    var newTiles = List<Tile>.generate(tiles.length, (index){
-      var currentTile = tiles.elementAt(index);
-      if (currentTile.content == TileContent.bomb) return currentTile;
-      else {
-        int ammountOfBombsInNeighborhood = _getAmmountOfBombsInNeighborhood(tiles, index);
-        TileContent content = _getTileContent(ammountOfBombsInNeighborhood);
-        return Tile(content: content, state: TileState.none);
-      }
-    });
-    return newTiles;
-  }
-
-  TileContent _getTileContent(int ammount) {
-    return TileContent.values.elementAt(ammount);
-  }
-
-  int _getAmmountOfBombsInNeighborhood(List<Tile> tiles, int index){
-    int result = 0;
-    var validNeighborsIndexes = NeighborhoodService().getNeighborsIndexes(index);
-    for (int i = 0; i < validNeighborsIndexes.length; i++){
-      if (tiles.elementAt(validNeighborsIndexes.elementAt(i)).content == TileContent.bomb) result++;
-    }
-    return result;
-  }
-
 
 }

@@ -15,6 +15,7 @@ class Game extends StatefulWidget {
     @required this.toggleFlag,
     @required this.newGame,
     @required this.showVictoryDialogEvt,
+    @required this.secondsElapsed
   });
 
   final int verticalTiles;
@@ -25,6 +26,7 @@ class Game extends StatefulWidget {
   final void Function(int) makeAMove;
   final void Function() newGame;
   final Event showVictoryDialogEvt;
+  final int secondsElapsed;
 
   @override
   _GameState createState() => _GameState();
@@ -45,6 +47,7 @@ class _GameState extends State<Game> {
           context: context,
           builder: (context){
             return VictoryDialog(
+              seconds: widget.secondsElapsed,
               newGame: widget.newGame,
             );
           }
@@ -63,7 +66,7 @@ class _GameState extends State<Game> {
             AppBarItem(imagePath: 'assets/images/bomb.png', text: ": ${widget.numberOfBombs}",),
             Padding(
               padding: EdgeInsets.only(right: 50),
-              child: AppBarItem(imagePath: 'assets/images/timer.png', text: ": 13s",),
+              child: AppBarItem(imagePath: 'assets/images/timer.png', text: ": ${widget.secondsElapsed}s",),
             ),
           ],
         ),

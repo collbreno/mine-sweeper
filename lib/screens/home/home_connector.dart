@@ -1,6 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:mine_sweeper/business/game/actions/init_board.dart';
+import 'package:mine_sweeper/business/game/actions/create_empty_board.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
 import 'package:mine_sweeper/screens/home/home.dart';
 
@@ -30,10 +30,10 @@ class ViewModel extends BaseModel<GameState> {
   @override
   ViewModel fromStore() {
     return ViewModel.build(
-      initBoard: () => dispatch(InitBoardAction(
-        horizontalTiles: 10,
-        verticalTiles: 15,
-        numberOfBombs: 27
+      initBoard: () => dispatch(CreateEmptyBoardAction(
+        horizontalTiles: 5,
+        verticalTiles: 7,
+        numberOfBombs: 15
       ))
     );
   }

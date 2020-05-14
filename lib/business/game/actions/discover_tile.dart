@@ -14,7 +14,6 @@ class DiscoverTileAction extends ReduxAction<GameState> {
     var tileClicked = state.tiles.elementAt(index);
     var newTile = Tile(content: tileClicked.content, state: TileState.discovered);
     tiles.replaceRange(index, index+1, [newTile]);
-    print('tiles to discover: ${state.tilesToDiscover-1}');
     return state.copy(
       tiles: tiles,
       tilesToDiscover: state.tilesToDiscover - 1

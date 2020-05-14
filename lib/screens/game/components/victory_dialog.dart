@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class VictoryDialog extends StatelessWidget {
-  VictoryDialog({@required this.newGame});
+  VictoryDialog({@required this.newGame, @required this.seconds});
 
+  final int seconds;
   final void Function() newGame;
 
   @override
@@ -21,11 +22,14 @@ class VictoryDialog extends StatelessWidget {
           ),
         ],
       ),
-      content: Text("Você venceu com um tempo de ..."), //TODO: inserir tempo,
+      content: Text("Você venceu com um tempo de $seconds segundos."), //TODO: inserir tempo,
       actions: <Widget>[
         FlatButton(
           child: Text("Sair".toUpperCase()),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
         ),
         FlatButton(
           child: Text("Reiniciar".toUpperCase()),
