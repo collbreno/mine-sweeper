@@ -30,11 +30,7 @@ class ViewModel extends BaseModel<GameState> {
   @override
   ViewModel fromStore() {
     return ViewModel.build(
-      initBoard: () => dispatch(CreateEmptyBoardAction(
-        horizontalTiles: 5,
-        verticalTiles: 7,
-        numberOfBombs: 15
-      ))
+      initBoard: () => dispatch(CreateEmptyBoardAction())
     );
   }
 }

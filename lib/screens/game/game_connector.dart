@@ -72,11 +72,7 @@ class ViewModel extends BaseModel<GameState> {
       tiles: state.tiles,
       showVictoryDialogEvt: state.showVictoryDialogEvt,
       verticalTiles: state.verticalTiles,
-      newGame: () => dispatch(CreateEmptyBoardAction(
-        horizontalTiles: 5, 
-        verticalTiles: 7, 
-        numberOfBombs: 15
-      )),
+      newGame: () => dispatch(CreateEmptyBoardAction()),
       toggleFlag: (index) => dispatch(ToggleFlagAction(index)),
       makeAMove: (index) => dispatch(MakeAMoveAction(index))
     );

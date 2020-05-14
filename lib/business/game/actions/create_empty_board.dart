@@ -6,10 +6,10 @@ import '../models/game_state.dart';
 
 // Essa ação é disparada quando o usuário clica em Novo Jogo
 class CreateEmptyBoardAction extends ReduxAction<GameState> {
-  CreateEmptyBoardAction({this.numberOfBombs, this.horizontalTiles, this.verticalTiles});
-  final int numberOfBombs;
-  final int verticalTiles;
-  final int horizontalTiles;
+  // CreateEmptyBoardAction({this.numberOfBombs, this.horizontalTiles, this.verticalTiles});
+  final int numberOfBombs = 27;
+  final int verticalTiles = 15;
+  final int horizontalTiles = 10;
 
   GameState reduce() {
     var tiles = _createEmptyTiles();
