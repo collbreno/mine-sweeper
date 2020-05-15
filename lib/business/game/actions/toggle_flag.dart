@@ -1,4 +1,5 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:mine_sweeper/business/game/models/game_progress.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 
@@ -11,7 +12,7 @@ class ToggleFlagAction extends ReduxAction<GameState> {
 
   @override
   GameState reduce() {
-    if (!state.initializated) return null; // Só deixa marcar bandeiras quando o jogo já estiver inicializado
+    if (state.gameProgress != GameProgress.inProgress) return null; // Só deixa marcar bandeiras quando o jogo estiver em progresso
     var tiles = state.tiles;
     var tileClicked = state.tiles.elementAt(index);
     bool isAlreadyMarked = tileClicked.state == TileState.flag;

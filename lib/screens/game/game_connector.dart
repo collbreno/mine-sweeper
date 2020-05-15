@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mine_sweeper/business/game/actions/create_empty_board.dart';
 import 'package:mine_sweeper/business/game/actions/make_a_move.dart';
 import 'package:mine_sweeper/business/game/actions/toggle_flag.dart';
+import 'package:mine_sweeper/business/game/models/game_progress.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 import 'package:mine_sweeper/screens/game/game.dart';
@@ -22,7 +23,8 @@ class GameConnector extends StatelessWidget {
           tiles: vm.tiles,
           makeAMove: vm.makeAMove,
           toggleFlag: vm.toggleFlag,
-          showVictoryDialogEvt: vm.showVictoryDialogEvt,
+          showDialogEvt: vm.showDialogEvt,
+          gameProgress: vm.gameProgress,
           newGame: vm.newGame,
         );
       },
@@ -40,7 +42,8 @@ class ViewModel extends BaseModel<GameState> {
   void Function(int) makeAMove;
   void Function(int) toggleFlag;
   void Function() newGame;
-  Event showVictoryDialogEvt;
+  Event<DialogType> showDialogEvt;
+  GameProgress gameProgress;
   int secondsElapsed;
 
   ViewModel.build({
@@ -50,7 +53,8 @@ class ViewModel extends BaseModel<GameState> {
     @required this.tiles,
     @required this.makeAMove,
     @required this.toggleFlag,
-    @required this.showVictoryDialogEvt,
+    @required this.showDialogEvt,
+    @required this.gameProgress,
     @required this.newGame,
     @required this.secondsElapsed
   }) : super(equals: [
@@ -60,7 +64,8 @@ class ViewModel extends BaseModel<GameState> {
       secondsElapsed,
       tiles.map((tile) => tile.state),
       tiles.map((tile) => tile.content),
-      showVictoryDialogEvt
+      showDialogEvt,
+      gameProgress
     ]);
 
   @override
@@ -70,7 +75,8 @@ class ViewModel extends BaseModel<GameState> {
       horizontalTiles: state.horizontalTiles,
       numberOfBombs: state.numberOfBombs,
       tiles: state.tiles,
-      showVictoryDialogEvt: state.showVictoryDialogEvt,
+      showDialogEvt: state.showDialogEvt,
+      gameProgress: state.gameProgress,
       verticalTiles: state.verticalTiles,
       newGame: () => dispatch(CreateEmptyBoardAction()),
       toggleFlag: (index) => dispatch(ToggleFlagAction(index)),

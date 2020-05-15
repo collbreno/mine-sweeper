@@ -1,55 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:mine_sweeper/business/game/models/game_progress.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 
 class TileSquare extends StatelessWidget {
-  TileSquare({@required this.onPress, @required this.onLongPress, @required this.tile});
+  TileSquare({@required this.onPress, @required this.onLongPress, @required this.tile, @required this.gameProgress});
 
   final void Function() onPress;
   final void Function() onLongPress;
   final Tile tile;
-  final Color backgroundColor = Colors.blue[50];
-  final Color bombBackgroundColor = Colors.red[900];
+  final GameProgress gameProgress;
+  final Color emptyBackgroundColor = Colors.blue[50];
+  final Color emptyHighLightColor = Colors.blue[100];
+  final Color emptySplashColor = Colors.blue[200];
   final Color buttonBackgroundColor = Colors.blueAccent;
+  final Color buttonHighLightColor = Colors.blue[800];
+  final Color buttonSplashColor = Colors.blue[900];
+  final Color bombBackgroundColor = Colors.red[800];
   final Color borderColor = Colors.blue[300];
+  final double buttonElevation = 2;
 
   @override
   Widget build(BuildContext context) {
-    switch (tile.state) {
-      case TileState.none:
+    if (gameProgress == GameProgress.created || gameProgress == GameProgress.inProgress){
+      if (tile.state == TileState.none) {
         return renderButton();
-      case TileState.flag:
-        return renderFlagButton();
-      case TileState.discovered:
-        return checkContentAndReturn();
-      default:
-        return renderButton();
+      }
+      else if (tile.state == TileState.discovered) {
+        return checkContentAndReturn(false);
+      }
+      else if (tile.state == TileState.flag) {
+        return renderFlag();
+      }
     }
+    else if (gameProgress == GameProgress.user_won) {
+      return checkContentAndReturn(true);
+    }
+    else if (gameProgress == GameProgress.user_lost) {
+      if (tile.state == TileState.none) {
+        if (tile.content == TileContent.bomb) {
+          return renderBomb();
+        }
+        else {
+          return renderButton();
+        }
+      }
+      if (tile.state == TileState.discovered) {
+        return checkContentAndReturn(false);
+      }
+      else if (tile.state == TileState.flag) {
+        if (tile.content == TileContent.bomb) {
+          return renderFlag();
+        }
+        else {
+          return renderMistakenFlag();
+        }
+      }
+    }
+    return renderButton();
   }
 
-  Widget renderButton(){
-    return RaisedButton(
-      shape: BeveledRectangleBorder(),
-      color: buttonBackgroundColor,
-      onPressed: onPress,
-      onLongPress: onLongPress,
-    );
+  void Function() handlePress(){
+    if (gameProgress == GameProgress.user_lost || gameProgress == GameProgress.user_won) return null;
+    return onPress;
   }
 
-  Widget renderFlagButton(){
-    return RaisedButton(
-      shape: BeveledRectangleBorder(),
-      color: buttonBackgroundColor,
-      padding: EdgeInsets.all(0),
-      child: Icon(Icons.flag, color: Colors.red[800],),
-      onPressed: onPress,
-      onLongPress: onLongPress,
-    );
+  void Function() handleLongPress(){
+    if (gameProgress != GameProgress.inProgress) return null;
+    return onLongPress;
   }
 
-  Widget checkContentAndReturn(){
+  Widget checkContentAndReturn(bool showFlag){
     switch (tile.content) {
       case TileContent.bomb:
-        return renderBomb(); 
+        return showFlag ? renderFlag() : renderExplodedBomb(); 
       case TileContent.empty:
         return renderEmpty();
       default:
@@ -57,12 +80,70 @@ class TileSquare extends StatelessWidget {
     }
   }
 
-  Widget renderBomb(){
+  Widget renderButton(){
+    return Material(
+      elevation: buttonElevation,
+      color: buttonBackgroundColor,
+      child: InkWell(
+        onTap: handlePress(),
+        onLongPress: handleLongPress(),
+        highlightColor: buttonHighLightColor,
+        splashColor: buttonSplashColor,
+      ),
+    );
+  }
+
+  Widget renderMistakenFlag() {
+    return Material(
+      color: buttonBackgroundColor,
+      elevation: buttonElevation,
+      child: InkWell(
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Icon(Icons.flag, color: Colors.red[800],),
+            Icon(Icons.close),
+          ],
+        ),
+        highlightColor: buttonHighLightColor,
+        splashColor: buttonSplashColor,
+        onTap: handlePress(),
+        onLongPress: handleLongPress(),
+      ),
+    );
+  }
+
+  Widget renderFlag(){
+    return Material(
+      color: buttonBackgroundColor,
+      elevation: buttonElevation,
+      child: InkWell(
+        child: Icon(Icons.flag, color: Colors.red[800],),
+        highlightColor: buttonHighLightColor,
+        splashColor: buttonSplashColor,
+        onTap: handlePress(),
+        onLongPress: handleLongPress(),
+      ),
+    );
+  }
+
+  Widget renderExplodedBomb() {
     return Material(
       color: bombBackgroundColor,
       child: Padding(
         padding: EdgeInsets.all(6.0),
-        child: Center(child: Image.asset('assets/images/bomb.png')),
+        child: Center(child: Image.asset('assets/images/bomb_black.png')),
+      ),
+      shape: BeveledRectangleBorder(side: BorderSide(width: 0.1, color: borderColor)),
+    );
+  }
+
+  Widget renderBomb(){
+    return Material(
+      color: emptyBackgroundColor,
+      child: Padding(
+        padding: EdgeInsets.all(6.0),
+        child: Center(child: Image.asset('assets/images/bomb_black.png')),
       ),
       shape: BeveledRectangleBorder(side: BorderSide(width: 0.1, color: borderColor)),
     );
@@ -70,7 +151,7 @@ class TileSquare extends StatelessWidget {
 
   Widget renderEmpty() {
     return Material(
-      color: backgroundColor,
+      color: emptyBackgroundColor,
       shape: BeveledRectangleBorder(side: BorderSide(width: 0.1, color: borderColor)),
     );
   }
@@ -78,11 +159,11 @@ class TileSquare extends StatelessWidget {
   Widget renderNumber() {
     return Material(
       shape: BeveledRectangleBorder(side: BorderSide(width: 0.1, color: borderColor)),
-      color: backgroundColor,
+      color: emptyBackgroundColor,
       child: InkWell(
-        onTap: onPress,
-        highlightColor: Colors.blue[100],
-        splashColor: Colors.blue[200],
+        onTap: handlePress(),
+        highlightColor: emptyHighLightColor,
+        splashColor: emptySplashColor,
         child: Center(
           child: Text(
             tile.content.index.toString(), 

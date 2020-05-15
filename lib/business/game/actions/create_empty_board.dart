@@ -1,4 +1,5 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:mine_sweeper/business/game/models/game_progress.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 import 'package:mine_sweeper/business/game/services/stopwatch_service.dart';
 import '../models/game_state.dart';
@@ -20,7 +21,7 @@ class CreateEmptyBoardAction extends ReduxAction<GameState> {
       verticalTiles: verticalTiles, 
       tilesToDiscover: verticalTiles * horizontalTiles - numberOfBombs,
       tiles: tiles,
-      initializated: false
+      gameProgress: GameProgress.created
     );
   }
 

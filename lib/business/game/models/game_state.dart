@@ -1,4 +1,5 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:mine_sweeper/business/game/models/game_progress.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 
 class GameState {
@@ -6,9 +7,9 @@ class GameState {
   final int verticalTiles;
   final int numberOfBombs;
   final int tilesToDiscover;
+  final GameProgress gameProgress;
   final List<Tile> tiles;
-  final bool initializated;
-  final Event showVictoryDialogEvt;
+  final Event<DialogType> showDialogEvt;
   final Duration timeElapsed;
 
   GameState({
@@ -16,10 +17,10 @@ class GameState {
     this.verticalTiles,
     this.numberOfBombs,
     this.tiles,
-    this.initializated,
-    this.showVictoryDialogEvt,
+    this.showDialogEvt,
     this.tilesToDiscover,
-    this.timeElapsed
+    this.timeElapsed,
+    this.gameProgress
   });
 
   GameState copy({ 
@@ -28,9 +29,9 @@ class GameState {
     int numberOfBombs, 
     int tilesToDiscover,
     List<Tile>tiles,
-    bool initializated,
-    Event showVictoryDialogEvt,
-    Duration timeElapsed
+    Event<DialogType> showDialogEvt,
+    Duration timeElapsed,
+    GameProgress gameProgress
   }) {
     return GameState(
       horizontalTiles: horizontalTiles ?? this.horizontalTiles,
@@ -38,9 +39,9 @@ class GameState {
       verticalTiles: verticalTiles ?? this.verticalTiles,
       tilesToDiscover: tilesToDiscover ?? this.tilesToDiscover,
       tiles: tiles ?? this.tiles,
-      initializated: initializated ?? this.initializated,
-      showVictoryDialogEvt: showVictoryDialogEvt ?? this.showVictoryDialogEvt,
-      timeElapsed: timeElapsed ?? this.timeElapsed
+      showDialogEvt: showDialogEvt ?? this.showDialogEvt,
+      timeElapsed: timeElapsed ?? this.timeElapsed,
+      gameProgress: gameProgress ?? this.gameProgress,
     );
   }
 
@@ -51,8 +52,8 @@ class GameState {
       tilesToDiscover: 0,
       numberOfBombs: 0,
       tiles: List<Tile>(),
-      initializated: false,
-      showVictoryDialogEvt: Event.spent(),
+      gameProgress: GameProgress.none,
+      showDialogEvt: Event<DialogType>.spent(),
       timeElapsed: Duration()
     );
 
@@ -63,20 +64,20 @@ class GameState {
                               tiles.map((tile) => tile.content) == other.tiles.map((tile) => tile.content) &&
                               horizontalTiles == other.horizontalTiles && 
                               verticalTiles == other.verticalTiles && 
-                              initializated == other.initializated &&
                               timeElapsed == other.timeElapsed &&
                               timeElapsed.inMilliseconds == other.timeElapsed.inMilliseconds &&
                               tilesToDiscover == other.tilesToDiscover &&
+                              gameProgress == other.gameProgress &&
                               numberOfBombs == other.numberOfBombs;
 
   @override
   int get hashCode => horizontalTiles.hashCode ^ 
                       verticalTiles.hashCode ^ 
                       numberOfBombs.hashCode ^ 
-                      initializated.hashCode ^
                       timeElapsed.hashCode ^
                       timeElapsed.inMilliseconds.hashCode ^
                       tilesToDiscover.hashCode ^
+                      gameProgress.hashCode ^
                       tiles.map((tile) => tile.content).hashCode ^
                       tiles.map((tile) => tile.state).hashCode;
 }

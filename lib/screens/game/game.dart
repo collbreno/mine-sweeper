@@ -1,7 +1,9 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:mine_sweeper/business/game/models/game_progress.dart';
 import 'package:mine_sweeper/business/game/models/tile.dart';
 import 'package:mine_sweeper/screens/game/components/app_bar_item.dart';
+import 'package:mine_sweeper/screens/game/components/defeat_dialog.dart';
 import 'package:mine_sweeper/screens/game/components/tile_widget.dart';
 import 'package:mine_sweeper/screens/game/components/victory_dialog.dart';
 
@@ -14,7 +16,8 @@ class Game extends StatefulWidget {
     @required this.makeAMove,
     @required this.toggleFlag,
     @required this.newGame,
-    @required this.showVictoryDialogEvt,
+    @required this.showDialogEvt,
+    @required this.gameProgress,
     @required this.secondsElapsed
   });
 
@@ -25,7 +28,8 @@ class Game extends StatefulWidget {
   final void Function(int) toggleFlag;
   final void Function(int) makeAMove;
   final void Function() newGame;
-  final Event showVictoryDialogEvt;
+  final GameProgress gameProgress;
+  final Event<DialogType> showDialogEvt;
   final int secondsElapsed;
 
   @override
@@ -41,11 +45,14 @@ class _GameState extends State<Game> {
   }
 
   void consumeEvents() {
-    if (widget.showVictoryDialogEvt.consume()) {
+    var payload = widget.showDialogEvt.consume();
+    if (payload != null) {
       WidgetsBinding.instance.addPostFrameCallback((_){
         showDialog(
           context: context,
           builder: (context){
+            if (payload == DialogType.defeat)
+              return DefeatDialog(newGame: widget.newGame,);
             return VictoryDialog(
               seconds: widget.secondsElapsed,
               newGame: widget.newGame,
@@ -81,6 +88,7 @@ class _GameState extends State<Game> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: widget.horizontalTiles),
               itemBuilder: (context, index){
                 return TileSquare(
+                  gameProgress: widget.gameProgress,
                   onPress: () => widget.makeAMove(index),
                   onLongPress: () => widget.toggleFlag(index),
                   tile: widget.tiles.elementAt(index),

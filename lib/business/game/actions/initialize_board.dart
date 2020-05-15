@@ -3,6 +3,7 @@ import 'package:mine_sweeper/business/game/actions/positionate_bombs.dart';
 import 'package:mine_sweeper/business/game/actions/positionate_numbers.dart';
 import 'package:mine_sweeper/business/game/actions/start_stopwatch.dart';
 import 'package:mine_sweeper/business/game/actions/wait_victory_and_show_dialog.dart';
+import 'package:mine_sweeper/business/game/models/game_progress.dart';
 import 'package:mine_sweeper/business/game/models/game_state.dart';
 import 'package:mine_sweeper/business/game/services/stopwatch_service.dart';
 
@@ -19,7 +20,7 @@ class InitializeBoardAction extends ReduxAction<GameState> {
     dispatch(StartStopwatchAction());
     StopwatchService().start();
     return state.copy(
-      initializated: true
+      gameProgress: GameProgress.inProgress
     );
   }
 
