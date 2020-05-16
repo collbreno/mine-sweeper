@@ -6,6 +6,7 @@ import 'package:mine_sweeper/screens/game/components/app_bar_item.dart';
 import 'package:mine_sweeper/screens/game/components/defeat_dialog.dart';
 import 'package:mine_sweeper/screens/game/components/tile_widget.dart';
 import 'package:mine_sweeper/screens/game/components/victory_dialog.dart';
+import 'package:mine_sweeper/screens/game/tile_specs.dart';
 
 class Game extends StatefulWidget {
   Game({ 
@@ -87,11 +88,12 @@ class _GameState extends State<Game> {
               itemCount: this.widget.tiles.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: widget.horizontalTiles),
               itemBuilder: (context, index){
-                return TileSquare(
-                  gameProgress: widget.gameProgress,
-                  onPress: () => widget.makeAMove(index),
-                  onLongPress: () => widget.toggleFlag(index),
+                return TileSpecs(
+                  onPress: handlePress(index),
+                  onLongPress: handleLongPress(index),
                   tile: widget.tiles.elementAt(index),
+                  gameProgress: widget.gameProgress,
+                  child: TileSquare(),
                 );
               },
             ),
@@ -99,5 +101,16 @@ class _GameState extends State<Game> {
         ],
       ),
     );
+  }
+
+  
+  void Function() handlePress(int index){
+    if (widget.gameProgress == GameProgress.user_lost || widget.gameProgress == GameProgress.user_won) return null;
+    return () => widget.makeAMove(index);
+  }
+
+  void Function() handleLongPress(int index){
+    if (widget.gameProgress != GameProgress.inProgress) return null;
+    return () => widget.toggleFlag(index);
   }
 }
