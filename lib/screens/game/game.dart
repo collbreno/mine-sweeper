@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:mine_sweeper/business/game/models/game_progress.dart';
@@ -32,6 +34,8 @@ class Game extends StatefulWidget {
   final GameProgress gameProgress;
   final Event<DialogType> showDialogEvt;
   final int secondsElapsed;
+
+  final double footerHeight = 64;
 
   @override
   _GameState createState() => _GameState();
@@ -79,14 +83,71 @@ class _GameState extends State<Game> {
           ],
         ),
         backgroundColor: Colors.black,
-        
       ),
       body: Column(
         children: <Widget>[
-          Flexible(
+          renderGrid(),
+          renderFooter(),
+        ],
+      ),
+    );
+  }
+
+  Widget renderFooter() {
+    return Container(
+      width: double.infinity,
+      height: widget.footerHeight,
+      color: Colors.grey[900],
+      child: Center(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.white,
+              width: 0.2
+            ),
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.grey[800],
+          ),
+          width: 200,
+          height: widget.footerHeight * 2/3,
+          child: Row(
+            children: <Widget>[
+              Text("jhk3289fh", style: TextStyle(color: Colors.white, fontSize: 16),),
+              IconButton(
+                icon: Icon(Icons.content_copy),
+                color: Colors.white,
+                onPressed: (){},
+              ),
+              IconButton(
+                icon: Icon(Icons.share),
+                color: Colors.white,
+                onPressed: (){
+                  print('apertei');
+                },
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget renderGrid() {
+    return Builder(
+      builder: (BuildContext context) {
+        return Align(
+          alignment: Alignment.topCenter,
+          child: SizedBox(
+            height: getTileSize(context) * widget.verticalTiles,
+            width: getTileSize(context) * widget.horizontalTiles,
             child: GridView.builder(
               itemCount: this.widget.tiles.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: widget.horizontalTiles),
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: widget.horizontalTiles,
+                // childAspectRatio: getTileSize(context),
+              ),
               itemBuilder: (context, index){
                 return TileSpecs(
                   onPress: handlePress(index),
@@ -97,10 +158,23 @@ class _GameState extends State<Game> {
                 );
               },
             ),
-          )
-        ],
-      ),
+          ),
+        );
+      },
     );
+  }
+
+  double getTileSize(BuildContext context) {
+    double appBarHeight = Scaffold.of(context).appBarMaxHeight;
+    var screenSize = MediaQuery.of(context).size;
+    double availableHeight = screenSize.height- appBarHeight - widget.footerHeight;
+    double availableWidth = screenSize.width;
+    double maxHeight = availableHeight / widget.verticalTiles;
+    double maxWidth = availableWidth / widget.horizontalTiles;
+    return min(maxHeight, maxWidth);
+
+
+
   }
 
   
