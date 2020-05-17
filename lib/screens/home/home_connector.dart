@@ -21,7 +21,7 @@ class HomeConnector extends StatelessWidget {
 class ViewModel extends BaseModel<GameState> {
   ViewModel();
 
-  void Function() initBoard;
+  void Function(Difficulty) initBoard;
 
   ViewModel.build({
     @required this.initBoard
@@ -30,7 +30,7 @@ class ViewModel extends BaseModel<GameState> {
   @override
   ViewModel fromStore() {
     return ViewModel.build(
-      initBoard: () => dispatch(CreateEmptyBoardAction())
+      initBoard: (Difficulty d) => dispatch(CreateEmptyBoardAction(d))
     );
   }
 }

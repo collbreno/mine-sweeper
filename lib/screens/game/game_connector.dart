@@ -78,7 +78,7 @@ class ViewModel extends BaseModel<GameState> {
       showDialogEvt: state.showDialogEvt,
       gameProgress: state.gameProgress,
       verticalTiles: state.verticalTiles,
-      newGame: () => dispatch(CreateEmptyBoardAction()),
+      newGame: () => dispatch(CreateEmptyBoardAction(Difficulty.normal)),
       toggleFlag: (index) => dispatch(ToggleFlagAction(index)),
       makeAMove: (index) => dispatch(MakeAMoveAction(index))
     );

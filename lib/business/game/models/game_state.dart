@@ -81,3 +81,9 @@ class GameState {
                       tiles.map((tile) => tile.content).hashCode ^
                       tiles.map((tile) => tile.state).hashCode;
 }
+
+enum Difficulty {
+  easy,
+  normal, 
+  hard
+}
