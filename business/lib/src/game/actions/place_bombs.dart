@@ -4,8 +4,8 @@ import 'package:business/business.dart';
 
 
 // Essa ação é disparada quando o usuário clica na sua primeira casa
-class PositionateBombsAction extends ReduxAction<GameState> {
-  PositionateBombsAction(this.indexClicked);
+class PlaceBombsAction extends ReduxAction<GameState> {
+  PlaceBombsAction(this.indexClicked);
   final int indexClicked;
 
    @override

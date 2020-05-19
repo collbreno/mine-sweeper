@@ -10,8 +10,8 @@ class InitializeBoardAction extends ReduxAction<GameState> {
    @override
   GameState reduce() {
     dispatch(WaitVictoryAndShowDialogAction());
-    dispatch(PositionateBombsAction(indexClicked));
-    dispatch(PositionateNumbersAction());
+    dispatch(PlaceBombsAction(indexClicked));
+    dispatch(PlaceNumbersAction());
     dispatch(StartStopwatchAction());
     return state.copy(
       gameProgress: GameProgress.inProgress

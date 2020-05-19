@@ -3,7 +3,7 @@ import 'package:business/business.dart';
 
 
 // Essa ação é disparada quando o usuário clica na sua primeira casa
-class PositionateNumbersAction extends ReduxAction<GameState> {
+class PlaceNumbersAction extends ReduxAction<GameState> {
 
    GameState reduce() {
     List<Tile> tiles = _putNumbersOnTiles();
