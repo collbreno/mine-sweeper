@@ -3,17 +3,17 @@ import 'package:business/business.dart';
 import 'package:client/screens/home/home_connector.dart';
 import 'package:flutter/material.dart';
 
-Store<GameState> store;
+Store<AppState> store;
 
 void main() {
-  store = Store<GameState>(initialState: GameState.initialState());
+  store = Store<AppState>(initialState: AppState.initialState());
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreProvider<GameState>(
+    return StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
         title: 'Flutter Demo',

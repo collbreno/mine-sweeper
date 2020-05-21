@@ -7,7 +7,7 @@ import 'home.dart';
 class HomeConnector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<GameState, ViewModel>(
+    return StoreConnector<AppState, ViewModel>(
       model: ViewModel(),
       builder: (BuildContext context, ViewModel vm) {
         return Home(
@@ -18,7 +18,7 @@ class HomeConnector extends StatelessWidget {
   }
 }
 
-class ViewModel extends BaseModel<GameState> {
+class ViewModel extends BaseModel<AppState> {
   ViewModel();
 
   void Function(Difficulty) initBoard;

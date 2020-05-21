@@ -3,8 +3,11 @@
 /// More dartdocs go here.
 library business;
 
-export './src/game/actions/actions.dart';
-export './src/game/models//models.dart';
-export './src/game/services/services.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export './src/board/actions/actions.dart';
+export './src/board/models/models.dart';
+export './src/board/services/services.dart';
+export './src/firebase/actions/actions.dart';
+export './src/firebase/models/models.dart';
+export './src/firebase/services/services.dart';
+export './src/app/models/models.dart';
+export './src/app/actions/actions.dart';

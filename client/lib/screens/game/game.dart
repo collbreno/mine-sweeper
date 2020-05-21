@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:business/business.dart';
+import 'package:client/screens/game/components/footer.dart';
 import 'package:client/screens/game/tile_specs.dart';
 import 'package:flutter/material.dart';
 
@@ -10,11 +11,10 @@ import 'components/defeat_dialog.dart';
 import 'components/tile_widget.dart';
 import 'components/victory_dialog.dart';
 
-
 class Game extends StatefulWidget {
-  Game({ 
-    @required this.verticalTiles, 
-    @required this.horizontalTiles, 
+  Game({
+    @required this.verticalTiles,
+    @required this.horizontalTiles,
     @required this.numberOfBombs,
     @required this.tiles,
     @required this.makeAMove,
@@ -22,7 +22,9 @@ class Game extends StatefulWidget {
     @required this.newGame,
     @required this.showDialogEvt,
     @required this.gameProgress,
-    @required this.secondsElapsed
+    @required this.secondsElapsed,
+    @required this.shareCode,
+    @required this.shareGame,
   });
 
   final int verticalTiles;
@@ -35,15 +37,16 @@ class Game extends StatefulWidget {
   final GameProgress gameProgress;
   final Event<DialogType> showDialogEvt;
   final int secondsElapsed;
+  final AsyncData<String> shareCode;
+  final void Function() shareGame;
 
   final double footerHeight = 64;
 
   @override
-  _GameState createState() => _GameState();
+  _BoardState createState() => _BoardState();
 }
 
-class _GameState extends State<Game> {
-
+class _BoardState extends State<Game> {
   @override
   void didUpdateWidget(Game oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -53,18 +56,19 @@ class _GameState extends State<Game> {
   void consumeEvents() {
     var payload = widget.showDialogEvt.consume();
     if (payload != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
-          context: context,
-          builder: (context){
-            if (payload == DialogType.defeat)
-              return DefeatDialog(newGame: widget.newGame,);
-            return VictoryDialog(
-              seconds: widget.secondsElapsed,
-              newGame: widget.newGame,
-            );
-          }
-        );
+            context: context,
+            builder: (context) {
+              if (payload == DialogType.defeat)
+                return DefeatDialog(
+                  newGame: widget.newGame,
+                );
+              return VictoryDialog(
+                seconds: widget.secondsElapsed,
+                newGame: widget.newGame,
+              );
+            });
       });
     }
   }
@@ -76,10 +80,16 @@ class _GameState extends State<Game> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            AppBarItem(imagePath: 'assets/images/bomb.png', text: ": ${widget.numberOfBombs}",),
+            AppBarItem(
+              imagePath: 'assets/images/bomb.png',
+              text: ": ${widget.numberOfBombs}",
+            ),
             Padding(
               padding: EdgeInsets.only(right: 50),
-              child: AppBarItem(imagePath: 'assets/images/timer.png', text: ": ${widget.secondsElapsed}s",),
+              child: AppBarItem(
+                imagePath: 'assets/images/timer.png',
+                text: ": ${widget.secondsElapsed}s",
+              ),
             ),
           ],
         ),
@@ -99,36 +109,109 @@ class _GameState extends State<Game> {
       width: double.infinity,
       height: widget.footerHeight,
       color: Colors.grey[900],
-      child: Center(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.white,
-              width: 0.2
-            ),
-            borderRadius: BorderRadius.circular(8),
-            color: Colors.grey[800],
+      child: Center(child: renderFooterContent()),
+    );
+  }
+
+  Widget renderFooterContent() {
+    if (widget.shareCode.isWaiting) {
+      return renderLoader();
+    }
+    if (widget.shareCode.hasError) {
+      return renderTryAgainButton();
+    }
+    if (widget.shareCode.hasData) {
+      return renderShareButton(widget.shareCode.data);
+    }
+    return renderNewShareButton();
+  }
+
+  Widget renderTryAgainButton() {
+    return Footer(
+      height: widget.footerHeight * 2 / 3,
+      onTap: widget.shareGame,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Icon(
+            Icons.warning,
+            color: Colors.white,
           ),
-          width: 200,
-          height: widget.footerHeight * 2/3,
-          child: Row(
-            children: <Widget>[
-              Text("jhk3289fh", style: TextStyle(color: Colors.white, fontSize: 16),),
-              IconButton(
-                icon: Icon(Icons.content_copy),
-                color: Colors.white,
-                onPressed: (){},
-              ),
-              IconButton(
-                icon: Icon(Icons.share),
-                color: Colors.white,
-                onPressed: (){
-                  print('apertei');
-                },
-              )
-            ],
+          Container(
+            width: 12,
           ),
+          Text(
+            "Algo deu errado.\nTente novamente.",
+            style: TextStyle(fontSize: 14, color: Colors.white),
+          ),
+          Container(
+            width: 24,
+          ),
+          Icon(
+            Icons.refresh,
+            color: Colors.white,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget renderShareButton(String shareCode) {
+    return Footer(
+      height: widget.footerHeight * 2/3,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            shareCode,
+            style: TextStyle(fontSize: 16, color: Colors.white),
+          ),
+          IconButton(
+            icon: Icon(Icons.content_copy, color: Colors.white,),
+            splashColor: Colors.white,
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.share, color: Colors.white,),
+            splashColor: Colors.white,
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget renderNewShareButton() {
+    return Footer(
+      height: widget.footerHeight * 2 / 3,
+      onTap: widget.shareGame,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            "Compartilhe seu jogo",
+            style: TextStyle(fontSize: 16, color: Colors.white),
+          ),
+          Container(
+            width: 24,
+          ),
+          Icon(
+            Icons.share,
+            color: Colors.white,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget renderLoader() {
+    return Center(
+      child: Container(
+        height: widget.footerHeight / 3,
+        width: widget.footerHeight / 3,
+        child: CircularProgressIndicator(
+          strokeWidth: widget.footerHeight / 20,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
         ),
       ),
     );
@@ -149,7 +232,7 @@ class _GameState extends State<Game> {
                 crossAxisCount: widget.horizontalTiles,
                 // childAspectRatio: getTileSize(context),
               ),
-              itemBuilder: (context, index){
+              itemBuilder: (context, index) {
                 return TileSpecs(
                   onPress: handlePress(index),
                   onLongPress: handleLongPress(index),
@@ -168,23 +251,21 @@ class _GameState extends State<Game> {
   double getTileSize(BuildContext context) {
     double appBarHeight = Scaffold.of(context).appBarMaxHeight;
     var screenSize = MediaQuery.of(context).size;
-    double availableHeight = screenSize.height- appBarHeight - widget.footerHeight;
+    double availableHeight =
+        screenSize.height - appBarHeight - widget.footerHeight;
     double availableWidth = screenSize.width;
     double maxHeight = availableHeight / widget.verticalTiles;
     double maxWidth = availableWidth / widget.horizontalTiles;
     return min(maxHeight, maxWidth);
-
-
-
   }
 
-  
-  void Function() handlePress(int index){
-    if (widget.gameProgress == GameProgress.user_lost || widget.gameProgress == GameProgress.user_won) return null;
+  void Function() handlePress(int index) {
+    if (widget.gameProgress == GameProgress.user_lost ||
+        widget.gameProgress == GameProgress.user_won) return null;
     return () => widget.makeAMove(index);
   }
 
-  void Function() handleLongPress(int index){
+  void Function() handleLongPress(int index) {
     if (widget.gameProgress != GameProgress.inProgress) return null;
     return () => widget.toggleFlag(index);
   }

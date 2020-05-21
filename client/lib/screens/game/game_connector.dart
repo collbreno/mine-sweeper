@@ -8,7 +8,7 @@ import 'game.dart';
 class GameConnector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<GameState, ViewModel>(
+    return StoreConnector<AppState, ViewModel>(
       model: ViewModel(),
       builder: (BuildContext context, ViewModel vm) {
         return Game(
@@ -22,13 +22,15 @@ class GameConnector extends StatelessWidget {
           showDialogEvt: vm.showDialogEvt,
           gameProgress: vm.gameProgress,
           newGame: vm.newGame,
+          shareCode: vm.shareCode,
+          shareGame: vm.shareGame,
         );
       },
     );
   }
 }
 
-class ViewModel extends BaseModel<GameState> {
+class ViewModel extends BaseModel<AppState> {
   ViewModel();
 
   int verticalTiles;
@@ -41,6 +43,8 @@ class ViewModel extends BaseModel<GameState> {
   Event<DialogType> showDialogEvt;
   GameProgress gameProgress;
   int secondsElapsed;
+  AsyncData<String> shareCode;
+  void Function() shareGame;
 
   ViewModel.build({
     @required this.verticalTiles,
@@ -52,7 +56,9 @@ class ViewModel extends BaseModel<GameState> {
     @required this.showDialogEvt,
     @required this.gameProgress,
     @required this.newGame,
-    @required this.secondsElapsed
+    @required this.secondsElapsed,
+    @required this.shareCode,
+    @required this.shareGame,
   }) : super(equals: [
       verticalTiles, 
       horizontalTiles, 
@@ -61,22 +67,25 @@ class ViewModel extends BaseModel<GameState> {
       tiles.map((tile) => tile.state),
       tiles.map((tile) => tile.content),
       showDialogEvt,
-      gameProgress
+      gameProgress,
+      shareCode,
     ]);
 
   @override
   ViewModel fromStore() {
     return ViewModel.build(
-      secondsElapsed: state.timeElapsed.inSeconds,
-      horizontalTiles: state.horizontalTiles,
-      numberOfBombs: state.numberOfBombs,
-      tiles: state.tiles,
-      showDialogEvt: state.showDialogEvt,
-      gameProgress: state.gameProgress,
-      verticalTiles: state.verticalTiles,
+      secondsElapsed: state.boardState.timeElapsed.inSeconds,
+      horizontalTiles: state.boardState.horizontalTiles,
+      numberOfBombs: state.boardState.numberOfBombs,
+      tiles: state.boardState.tiles,
+      showDialogEvt: state.boardState.showDialogEvt,
+      gameProgress: state.boardState.gameProgress,
+      shareCode: state.cloudState.shareCode,
+      verticalTiles: state.boardState.verticalTiles,
       newGame: () => dispatch(CreateEmptyBoardAction(Difficulty.normal)),
       toggleFlag: (index) => dispatch(ToggleFlagAction(index)),
-      makeAMove: (index) => dispatch(MakeAMoveAction(index))
+      makeAMove: (index) => dispatch(MakeAMoveAction(index)),
+      shareGame: () => dispatch(ShareGameAction())
     );
   }
 }

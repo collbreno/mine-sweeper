@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "801898476339",
+    "firebase_url": "https://mine-sweeper-7808f.firebaseio.com",
+    "project_id": "mine-sweeper-7808f",
+    "storage_bucket": "mine-sweeper-7808f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801898476339:android:b0f7ad9f120be0a3f58446",
+        "android_client_info": {
+          "package_name": "com.bcoll.minesweeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "801898476339-qujmuau8gvhaj4h2rt1dbfmkbbfo04r6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANRcUJCtdFqvWGxRM7ZImjGGdwLYqsgcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "801898476339-qujmuau8gvhaj4h2rt1dbfmkbbfo04r6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
