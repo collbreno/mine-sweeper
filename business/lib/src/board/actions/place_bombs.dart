@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:async_redux/async_redux.dart';
 import 'package:business/business.dart';
-import 'package:business/src/firebase/actions/convert_tiles_content_to_string.dart';
+import 'package:business/src/firebase/actions/update_tiles_content.dart';
 
 
 // Essa ação é disparada quando o usuário clica na sua primeira casa

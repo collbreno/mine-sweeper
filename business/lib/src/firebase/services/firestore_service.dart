@@ -13,4 +13,11 @@ class FirestoreService {
     return docRef.documentID;
   }
 
+  Future<void> updateGame(String id, BoardSpecs specs) async {
+    final path = 'games/$id';
+    var docRef = Firestore.instance.document(path);
+    await docRef.setData(specs.toMap(), merge: true);
+    print('jogo atualizado no firebase');
+  }
+
 }

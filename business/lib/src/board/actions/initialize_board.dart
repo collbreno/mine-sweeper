@@ -18,5 +18,11 @@ class InitializeBoardAction extends BoardAction {
     );
   }
 
+  @override
+  void after() {
+     dispatch(UpdateTilesContent());
+     dispatch(UpdateGameProgress());
+  }
+
 
 }

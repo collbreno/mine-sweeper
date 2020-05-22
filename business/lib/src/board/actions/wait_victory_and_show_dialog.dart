@@ -11,4 +11,7 @@ class WaitVictoryAndShowDialogAction extends BoardFutureAction {
     );
   }
 
+  @override
+  void after() => dispatch(UpdateGameProgress());
+
 }

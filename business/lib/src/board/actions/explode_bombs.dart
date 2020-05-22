@@ -12,4 +12,7 @@ class ExplodeBombsAction extends BoardAction {
       showDialogEvt: Event<DialogType>(DialogType.defeat)
     );
   }
+
+  @override
+  void after() => dispatch(UpdateGameProgress());
 }

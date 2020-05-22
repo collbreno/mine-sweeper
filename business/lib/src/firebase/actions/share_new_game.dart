@@ -9,18 +9,26 @@ class ShareNewGameAction extends CloudFutureAction {
   Future<CloudState> reduceCloudState() async {
     dispatch(SetShareCodeToLoading());
     var shareCode = await FirestoreService().createGame(_getBoardSpecs());
-    print('firestore document id $shareCode');
-    return cloudState.copy(
-      shareCode: AsyncData<String>.withData(shareCode)
-    );
+    return cloudState.copy(shareCode: AsyncData<String>.withData(shareCode));
+  }
+
+  @override
+  void after() {
+    if (gameProgress == GameProgress.inProgress ||
+        gameProgress == GameProgress.user_lost ||
+        gameProgress == GameProgress.user_won) {
+      dispatch(UpdateTilesState());
+      dispatch(UpdateTilesContent());
+      dispatch(UpdateTilesToDiscover());
+      dispatch(UpdateNumberOfBombs());
+      dispatch(UpdateGameProgress());
+    }
   }
 
   BoardSpecs _getBoardSpecs() {
     return BoardSpecs(
-      horizontalTiles: horizontalTiles,
-      numberOfBombs: numberOfBombs,
-      verticalTiles: verticalTiles
-    );
+        horizontalTiles: horizontalTiles,
+        numberOfBombs: numberOfBombs,
+        verticalTiles: verticalTiles);
   }
-
 }

@@ -35,4 +35,10 @@ class MakeAMoveAction extends BoardAction {
     return null;
   }
 
+  @override
+  void after() {
+    dispatch(UpdateTilesState());
+    dispatch(UpdateTilesToDiscover());
+  }
+
 }

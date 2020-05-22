@@ -1,5 +1,8 @@
-export 'convert_tiles_content_to_string.dart';
-export 'convert_tiles_state_to_string.dart';
+export 'update_tiles_content.dart';
+export 'update_tiles_state.dart';
+export 'update_number_of_bombs.dart';
+export 'update_tiles_to_discover.dart';
+export 'update_game_progress.dart';
 export 'share_new_game.dart';
 export 'share_game.dart';
 export 'cloud_action.dart';

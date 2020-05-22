@@ -13,13 +13,13 @@ enum TileState {
 
 enum TileContent {
   empty,
-  number_1,
-  number_2,
-  number_3,
-  number_4,
-  number_5,
-  number_6,
-  number_7,
-  number_8,
+  number1,
+  number2,
+  number3,
+  number4,
+  number5,
+  number6,
+  number7,
+  number8,
   bomb,
 }
