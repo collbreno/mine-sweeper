@@ -14,5 +14,5 @@ class ExplodeBombsAction extends BoardAction {
   }
 
   @override
-  void after() => dispatch(UpdateGameProgress());
+  void after() => dispatch(UpdateGameProgressAction());
 }

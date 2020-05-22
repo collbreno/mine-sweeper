@@ -37,8 +37,8 @@ class MakeAMoveAction extends BoardAction {
 
   @override
   void after() {
-    dispatch(UpdateTilesState());
-    dispatch(UpdateTilesToDiscover());
+    dispatch(UpdateTilesStateAction());
+    dispatch(UpdateTilesToDiscoverAction());
   }
 
 }

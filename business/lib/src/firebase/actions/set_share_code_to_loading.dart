@@ -1,6 +1,6 @@
 import 'package:business/business.dart';
 
-class SetShareCodeToLoading extends CloudAction {
+class SetShareCodeToLoadingAction extends CloudAction {
 
   @override
   CloudState reduceCloudState() {

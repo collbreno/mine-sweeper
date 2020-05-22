@@ -24,6 +24,7 @@ class GameConnector extends StatelessWidget {
           newGame: vm.newGame,
           shareCode: vm.shareCode,
           shareGame: vm.shareGame,
+          isSyncing: vm.isSyncing,
         );
       },
     );
@@ -45,6 +46,7 @@ class ViewModel extends BaseModel<AppState> {
   int secondsElapsed;
   AsyncData<String> shareCode;
   void Function() shareGame;
+  bool isSyncing;
 
   ViewModel.build({
     @required this.verticalTiles,
@@ -59,6 +61,7 @@ class ViewModel extends BaseModel<AppState> {
     @required this.secondsElapsed,
     @required this.shareCode,
     @required this.shareGame,
+    @required this.isSyncing,
   }) : super(equals: [
       verticalTiles, 
       horizontalTiles, 
@@ -69,6 +72,7 @@ class ViewModel extends BaseModel<AppState> {
       showDialogEvt,
       gameProgress,
       shareCode,
+      isSyncing,
     ]);
 
   @override
@@ -82,6 +86,7 @@ class ViewModel extends BaseModel<AppState> {
       gameProgress: state.boardState.gameProgress,
       shareCode: state.cloudState.shareCode,
       verticalTiles: state.boardState.verticalTiles,
+      isSyncing: state.cloudState.syncStatus.isSyncing,
       newGame: () => dispatch(CreateEmptyBoardAction(Difficulty.normal)),
       toggleFlag: (index) => dispatch(ToggleFlagAction(index)),
       makeAMove: (index) => dispatch(MakeAMoveAction(index)),

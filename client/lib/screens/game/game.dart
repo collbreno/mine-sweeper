@@ -25,6 +25,7 @@ class Game extends StatefulWidget {
     @required this.secondsElapsed,
     @required this.shareCode,
     @required this.shareGame,
+    @required this.isSyncing,
   });
 
   final int verticalTiles;
@@ -39,6 +40,7 @@ class Game extends StatefulWidget {
   final int secondsElapsed;
   final AsyncData<String> shareCode;
   final void Function() shareGame;
+  final bool isSyncing;
 
   final double footerHeight = 64;
 
@@ -105,11 +107,26 @@ class _BoardState extends State<Game> {
   }
 
   Widget renderFooter() {
-    return Container(
-      width: double.infinity,
-      height: widget.footerHeight,
-      color: Colors.grey[900],
-      child: Center(child: renderFooterContent()),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          width: double.infinity,
+          height: widget.footerHeight,
+          color: Colors.grey[900],
+          child: Center(child: renderFooterContent()),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: EdgeInsets.only(right: 12),
+            child: Visibility(
+              visible: widget.isSyncing,
+              child: Icon(Icons.sync, color: Colors.white,),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -158,21 +175,27 @@ class _BoardState extends State<Game> {
 
   Widget renderShareButton(String shareCode) {
     return Footer(
-      height: widget.footerHeight * 2/3,
+      height: widget.footerHeight * 2 / 3,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
-            shareCode,
-            style: TextStyle(fontSize: 16, color: Colors.white),
+            shareCode.substring(0,7),
+            style: TextStyle(fontSize: 14, color: Colors.white),
           ),
           IconButton(
-            icon: Icon(Icons.content_copy, color: Colors.white,),
+            icon: Icon(
+              Icons.content_copy,
+              color: Colors.white,
+            ),
             splashColor: Colors.white,
             onPressed: () {},
           ),
           IconButton(
-            icon: Icon(Icons.share, color: Colors.white,),
+            icon: Icon(
+              Icons.share,
+              color: Colors.white,
+            ),
             splashColor: Colors.white,
             onPressed: () {},
           ),

@@ -1,14 +1,28 @@
 import 'package:business/business.dart';
 
-class UpdateTilesContent extends CloudAction {
+class UpdateTilesContentAction extends CloudAction {
 
   @override
-  CloudState reduceCloudState() {
+  Future<CloudState> reduceCloudState() async {
     if (!shareCode.hasData) return null;
     var tilesContent = ConverterHelper.convertTilesContentToString(tiles);
     var boardSpecs = BoardSpecs(tilesContent: tilesContent);
-    FirestoreService().updateGame(shareCode.data, boardSpecs);
+    await FirestoreService().updateGame(shareCode.data, boardSpecs);
     return null;
+  }
+
+  @override
+  void before() {
+    dispatch(SetSyncStatusAction(
+        syncStatus.copy(isSyncingTilesContent: true)
+    ));
+  }
+
+  @override
+  void after() {
+    dispatch(SetSyncStatusAction(
+        syncStatus.copy(isSyncingTilesContent: false)
+    ));
   }
 
 }

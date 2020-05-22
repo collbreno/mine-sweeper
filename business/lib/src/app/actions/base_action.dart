@@ -20,4 +20,5 @@ abstract class BaseAction extends ReduxAction<AppState> {
   // getters for all CloudState properties
   bool get isRemote => cloudState.isRemote;
   AsyncData<String> get shareCode => cloudState.shareCode;
+  SyncStatus get syncStatus => cloudState.syncStatus;
 }

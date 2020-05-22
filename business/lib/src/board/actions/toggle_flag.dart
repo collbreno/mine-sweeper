@@ -25,7 +25,7 @@ class ToggleFlagAction extends BoardAction {
 
   @override
   void after() {
-    dispatch(UpdateTilesState());
-    dispatch(UpdateNumberOfBombs());
+    dispatch(UpdateTilesStateAction());
+    dispatch(UpdateNumberOfBombsAction());
   }
 }

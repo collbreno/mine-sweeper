@@ -24,7 +24,7 @@ class CreateEmptyBoardAction extends BoardAction {
   }
 
   @override
-  void after() => dispatch(UpdateGameProgress());
+  void after() => dispatch(UpdateGameProgressAction());
 
   List<Tile> _createEmptyTiles(){
     return List<Tile>.generate(getVerticalTiles()*getHorizontalTiles(), (index) => Tile(content: TileContent.empty, state: TileState.none));

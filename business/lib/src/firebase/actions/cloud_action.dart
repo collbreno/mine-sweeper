@@ -3,11 +3,16 @@ import 'dart:async';
 import 'package:business/business.dart';
 
 abstract class CloudAction extends BaseAction {
-  CloudState reduceCloudState();
+  FutureOr<CloudState> reduceCloudState();
 
   @override
-  AppState reduce() {
+  FutureOr<AppState> reduce() {
     var cloudState = reduceCloudState();
+    if (cloudState is Future) {
+      return (cloudState as Future)
+          .then((_cloudState) => state.copy(cloudState: _cloudState));
+    }
+
     return (cloudState == null) ? null : state.copy(cloudState: cloudState);
   }
 }

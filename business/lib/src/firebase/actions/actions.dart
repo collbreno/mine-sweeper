@@ -6,5 +6,5 @@ export 'update_game_progress.dart';
 export 'share_new_game.dart';
 export 'share_game.dart';
 export 'cloud_action.dart';
-export 'cloud_future_action.dart';
 export 'create_new_game.dart';
+export 'set_sync_status.dart';

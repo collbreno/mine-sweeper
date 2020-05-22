@@ -1,13 +1,27 @@
 import 'package:business/business.dart';
 
-class UpdateGameProgress extends CloudAction {
+class UpdateGameProgressAction extends CloudAction {
 
   @override
-  CloudState reduceCloudState() {
+  Future<CloudState> reduceCloudState() async {
     if (!shareCode.hasData) return null;
     var boardSpecs = BoardSpecs(gameProgress: gameProgress);
-    FirestoreService().updateGame(shareCode.data, boardSpecs);
+    await FirestoreService().updateGame(shareCode.data, boardSpecs);
     return null;
+  }
+
+  @override
+  void before() {
+    dispatch(SetSyncStatusAction(
+        syncStatus.copy(isSyncingGameProgress: true)
+    ));
+  }
+
+  @override
+  void after() {
+    dispatch(SetSyncStatusAction(
+        syncStatus.copy(isSyncingGameProgress: false)
+    ));
   }
 
 }
