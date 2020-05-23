@@ -1,8 +1,5 @@
-import 'package:async_redux/async_redux.dart';
 import 'package:business/business.dart';
-import 'package:business/src/firebase/actions/update_tiles_content.dart';
 
-// Essa ação é disparada quando o usuário clica na sua primeira casa
 class PlaceNumbersAction extends BoardAction {
   @override
   BoardState reduceBoardState() {

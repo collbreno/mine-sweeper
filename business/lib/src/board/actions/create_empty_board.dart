@@ -32,7 +32,7 @@ class CreateEmptyBoardAction extends BoardAction {
 
   int getNumberOfBombs() {
     var map = <Difficulty, int>{};
-    map[Difficulty.easy] = 3;
+    map[Difficulty.easy] = 18;
     map[Difficulty.normal] = 27;
     map[Difficulty.hard] = 36;
     return map[difficulty];
@@ -40,7 +40,7 @@ class CreateEmptyBoardAction extends BoardAction {
 
   int getVerticalTiles() {
     var map = <Difficulty, int>{};
-    map[Difficulty.easy] = 10;
+    map[Difficulty.easy] = 12;
     map[Difficulty.normal] = 15;
     map[Difficulty.hard] = 20;
     return map[difficulty];
@@ -48,7 +48,7 @@ class CreateEmptyBoardAction extends BoardAction {
 
   int getHorizontalTiles() {
     var map = <Difficulty, int>{};
-    map[Difficulty.easy] = 6;
+    map[Difficulty.easy] = 8;
     map[Difficulty.normal] = 10;
     map[Difficulty.hard] = 15;
     return map[difficulty];

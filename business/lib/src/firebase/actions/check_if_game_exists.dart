@@ -11,7 +11,7 @@ class CheckIfGameExistsAction extends CloudAction {
   @override
   Future<CloudState> reduceCloudState() async {
     print('entrei aqui');
-    if (await FirestoreService().checkIfGameExists(id)) {
+    if (id != null && id.isNotEmpty && await FirestoreService().checkIfGameExists(id)) {
       dispatch(StartListenGameAction(id));
       dispatch(NavigateToGameScreenAction());
       dispatch(DismissPromptDialogAction());

@@ -1,4 +1,6 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:business/business.dart';
+import 'package:client/screens/home/components/home_button.dart';
 import 'package:flutter/material.dart';
 
 class PlayButton extends StatefulWidget {
@@ -11,13 +13,33 @@ class PlayButton extends StatefulWidget {
 }
 
 class _PlayButtonState extends State<PlayButton> {
-
   bool collapsed = true;
+
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(backButtonInterceptor, zIndex: 1);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(backButtonInterceptor);
+    super.dispose();
+  }
+
+  bool backButtonInterceptor(bool stopDefaultButtonEvent) {
+    if (collapsed || stopDefaultButtonEvent) return false;
+    setState(() {
+      collapsed = true;
+    });
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
-      crossFadeState: collapsed ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      crossFadeState:
+          collapsed ? CrossFadeState.showFirst : CrossFadeState.showSecond,
       secondChild: second(),
       firstChild: first(),
       duration: Duration(milliseconds: 300),
@@ -32,11 +54,15 @@ class _PlayButtonState extends State<PlayButton> {
   }
 
   Widget first() {
-    return GameButton(
-      onTap: toggleCollapsed, 
+    return HomeButton(
+      onTap: toggleCollapsed,
       title: 'Jogar',
-      isTop: true,
-      isBottom: true,
+      leading: Icon(
+        Icons.play_arrow,
+        color: Colors.white,
+      ),
+      roundTopBorder: true,
+      roundBottomBorder: true,
     );
   }
 
@@ -44,63 +70,54 @@ class _PlayButtonState extends State<PlayButton> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        GameButton(
-          onTap: () => widget.onDifficultySelected(Difficulty.easy), 
+        HomeButton(
+          onTap: () {
+            toggleCollapsed();
+            widget.onDifficultySelected(Difficulty.easy);
+          },
           title: 'Fácil',
-          isTop: true,
+          trailing: Text(
+            "8x12",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+          ),
+          roundTopBorder: true,
         ),
-        GameButton(
-          onTap: () => widget.onDifficultySelected(Difficulty.normal), 
+        Container(
+          height: 0.2,
+        ),
+        HomeButton(
+          onTap: () {
+            toggleCollapsed();
+            widget.onDifficultySelected(Difficulty.normal);
+          },
+          trailing: Text(
+            "10x15",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+          ),
           title: 'Médio',
         ),
-        GameButton(
-          onTap: () => widget.onDifficultySelected(Difficulty.hard), 
+        Container(
+          height: 0.2,
+        ),
+        HomeButton(
+          onTap: () {
+            toggleCollapsed();
+            widget.onDifficultySelected(Difficulty.hard);
+          },
+          trailing: Text(
+            "15x20",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+          ),
           title: 'Difícil',
-          isBottom: true,
+          roundBottomBorder: true,
         ),
       ],
     );
   }
 
   void toggleCollapsed() {
-    setState((){ 
-      collapsed = !collapsed; 
+    setState(() {
+      collapsed = !collapsed;
     });
-  }
-
-}
-class GameButton extends StatelessWidget {
-  GameButton({this.title, this.onTap, this.isBottom = false, this.isTop = false});
-
-  final String title;
-  final void Function() onTap;
-  final bool isBottom;
-  final bool isTop;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.blueAccent,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(isTop ? 4 : 0), 
-          bottom: Radius.circular(isBottom ? 4 : 0)
-        ),
-      ),
-      child: InkWell(
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(width: isTop? 0 : 0.2, color: Colors.white),
-            )
-          ),
-          alignment: Alignment.center,
-          height: 42,
-          width: 200,
-          child: Text(title.toUpperCase(), style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),),
-        ),
-        onTap: onTap,
-      ),
-    );
   }
 }

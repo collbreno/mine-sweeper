@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   async_redux: ^2.8.1
+  back_button_interceptor: ^4.2.4
   business:
     path: ../business
 
