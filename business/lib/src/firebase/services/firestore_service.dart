@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../../../business.dart';
 
 class FirestoreService {
@@ -11,6 +10,21 @@ class FirestoreService {
     print('documento criado: ${docRef.documentID}');
     await docRef.setData(specs.toMap());
     return docRef.documentID;
+  }
+
+  Stream<BoardSpecs> getGameStream(String id) {
+    final path = 'games/$id';
+    final docRef = Firestore.instance.document(path);
+    final snapshots = docRef.snapshots();
+    return snapshots.map((snapshot){
+      return BoardSpecs.fromObject(snapshot.data);
+    });
+  }
+
+  Future<bool> checkIfGameExists(String id) async {
+    final path = 'games/$id';
+    final doc = await Firestore.instance.document(path).get();
+    return doc.exists;
   }
 
   Future<void> updateGame(String id, BoardSpecs specs) async {

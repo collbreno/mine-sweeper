@@ -14,3 +14,4 @@ export 'start_stopwatch.dart';
 export 'toggle_flag.dart';
 export 'wait_victory_and_show_dialog.dart';
 export 'board_action.dart';
+export 'update_board.dart';

@@ -1,11 +1,11 @@
 import 'package:business/business.dart';
 
-class CreateNewGameAction extends CloudAction {
+class SetShareCodeToErrorAction extends CloudAction {
 
   @override
   CloudState reduceCloudState() {
     return cloudState.copy(
-        shareCode: AsyncData<String>.nothing()
+        shareCode: AsyncData<String>.withError()
     );
   }
 }

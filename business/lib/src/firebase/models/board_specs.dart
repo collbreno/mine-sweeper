@@ -30,4 +30,17 @@ class BoardSpecs {
     if (gameProgress != null) map['gameProgress'] = gameProgress.index;
     return map;
   }
+
+  static BoardSpecs fromObject(dynamic o) {
+    return BoardSpecs(
+      horizontalTiles: o['horizontalTiles'],
+      verticalTiles: o['verticalTiles'],
+      numberOfBombs: o['numberOfBombs'],
+      tilesContent: o['tilesContent'],
+      tilesState: o['tilesState'],
+      tilesToDiscover: o['tilesToDiscover'],
+      gameProgress: GameProgress.values.elementAt(o['gameProgress']),
+    );
+  }
+
 }

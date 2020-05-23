@@ -5,6 +5,7 @@ import 'package:business/business.dart';
 import 'package:client/screens/game/components/footer.dart';
 import 'package:client/screens/game/tile_specs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'components/app_bar_item.dart';
 import 'components/defeat_dialog.dart';
@@ -26,6 +27,8 @@ class Game extends StatefulWidget {
     @required this.shareCode,
     @required this.shareGame,
     @required this.isSyncing,
+    @required this.isWatching,
+    @required this.cancelListen,
   });
 
   final int verticalTiles;
@@ -35,12 +38,14 @@ class Game extends StatefulWidget {
   final void Function(int) toggleFlag;
   final void Function(int) makeAMove;
   final void Function() newGame;
+  final void Function() cancelListen;
   final GameProgress gameProgress;
   final Event<DialogType> showDialogEvt;
   final int secondsElapsed;
   final AsyncData<String> shareCode;
   final void Function() shareGame;
   final bool isSyncing;
+  final bool isWatching;
 
   final double footerHeight = 64;
 
@@ -53,6 +58,12 @@ class _BoardState extends State<Game> {
   void didUpdateWidget(Game oldWidget) {
     super.didUpdateWidget(oldWidget);
     consumeEvents();
+  }
+
+  @override
+  void dispose() {
+    if (widget.isWatching) widget.cancelListen();
+    super.dispose();
   }
 
   void consumeEvents() {
@@ -131,6 +142,15 @@ class _BoardState extends State<Game> {
   }
 
   Widget renderFooterContent() {
+    if (widget.isWatching) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(widget.shareCode.data ?? '', style: TextStyle(fontSize: 14, color: Colors.white),),
+          Icon(Icons.remove_red_eye, color: Colors.white,),
+        ],
+      );
+    }
     if (widget.shareCode.isWaiting) {
       return renderLoader();
     }
@@ -180,7 +200,7 @@ class _BoardState extends State<Game> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
-            shareCode.substring(0,7),
+            shareCode,
             style: TextStyle(fontSize: 14, color: Colors.white),
           ),
           IconButton(
@@ -189,15 +209,9 @@ class _BoardState extends State<Game> {
               color: Colors.white,
             ),
             splashColor: Colors.white,
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.share,
-              color: Colors.white,
-            ),
-            splashColor: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              Clipboard.setData(ClipboardData(text: shareCode));
+            },
           ),
         ],
       ),
@@ -283,12 +297,14 @@ class _BoardState extends State<Game> {
   }
 
   void Function() handlePress(int index) {
+    if (widget.makeAMove == null) return null;
     if (widget.gameProgress == GameProgress.user_lost ||
         widget.gameProgress == GameProgress.user_won) return null;
     return () => widget.makeAMove(index);
   }
 
   void Function() handleLongPress(int index) {
+    if (widget.toggleFlag == null) return null;
     if (widget.gameProgress != GameProgress.inProgress) return null;
     return () => widget.toggleFlag(index);
   }
