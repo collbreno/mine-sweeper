@@ -11,7 +11,7 @@ class CreateEmptyBoardAction extends BoardAction {
   @override
   BoardState reduceBoardState() {
     var tiles = _createEmptyTiles();
-    StopwatchService().stopAndReset();
+    dispatch(ResetTimeElapsedAction());
     dispatch(NewLocalGameAction());
     return boardState.copy(
       horizontalTiles: getHorizontalTiles(),

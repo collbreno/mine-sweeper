@@ -11,33 +11,29 @@ class StopwatchService {
     return _instance;
   }
 
-  void start(){
+  void start(void Function(Duration) onUpdate){
     _stopwatch.start();
-    _updateStateWhileRunning();
+    _updateStateWhileRunning(onUpdate);
   }
 
   void stopAndReset() {
     _stopwatch.stop();
     _stopwatch.reset();
-    _updateState();
   }
 
   void stop() {
     _stopwatch.stop();
   }
 
-  void _updateStateWhileRunning(){
-    _updateState();
+  void _updateStateWhileRunning(void Function(Duration) onUpdate){
+    onUpdate(_stopwatch.elapsed);
     var duration = Duration(seconds: 1);
     Timer(duration, (){
       if (_stopwatch.isRunning) {
-        _updateStateWhileRunning();
+        _updateStateWhileRunning(onUpdate);
       }
     }); // A cada um segundo, atualiza o State
   }
 
-  void _updateState() {
-    //dispatch(SetTimeElapsedAction(_stopwatch.elapsed));
-  }
 
 }

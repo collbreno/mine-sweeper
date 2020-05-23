@@ -6,7 +6,7 @@ class StartStopwatchAction extends BoardAction {
 
   @override
   BoardState reduceBoardState(){
-    StopwatchService().start();
+    StopwatchService().start((duration) => dispatch(SetTimeElapsedAction(duration)));
     return null;
   }
 }

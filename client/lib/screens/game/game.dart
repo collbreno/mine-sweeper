@@ -48,6 +48,7 @@ class Game extends StatefulWidget {
   final bool isWatching;
 
   final double footerHeight = 64;
+  final Color backgroundColor = Colors.grey[900];
 
   @override
   _BoardState createState() => _BoardState();
@@ -108,11 +109,15 @@ class _BoardState extends State<Game> {
         ),
         backgroundColor: Colors.black,
       ),
-      body: Column(
-        children: <Widget>[
-          renderGrid(),
-          renderFooter(),
-        ],
+      body: Material(
+        color: widget.backgroundColor,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            renderGrid(),
+            renderFooter(),
+          ],
+        ),
       ),
     );
   }
@@ -124,7 +129,7 @@ class _BoardState extends State<Game> {
         Container(
           width: double.infinity,
           height: widget.footerHeight,
-          color: Colors.grey[900],
+          color: widget.backgroundColor,
           child: Center(child: renderFooterContent()),
         ),
         Align(
