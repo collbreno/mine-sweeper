@@ -2,7 +2,8 @@ import 'dart:math';
 
 import 'package:async_redux/async_redux.dart';
 import 'package:business/business.dart';
-import 'package:client/screens/game/components/footer.dart';
+import 'package:client/screens/game/components/footer/footer.dart';
+import 'file:///C:/Workspace/Coll/mine_sweeper/client/lib/screens/game/components/footer/footer_box.dart';
 import 'package:client/screens/game/tile_specs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -127,10 +128,14 @@ class _BoardState extends State<Game> {
       alignment: Alignment.center,
       children: [
         Container(
-          width: double.infinity,
           height: widget.footerHeight,
-          color: widget.backgroundColor,
-          child: Center(child: renderFooterContent()),
+          alignment: Alignment.center,
+          child: Footer(
+            shareCode: widget.shareCode,
+            isWatching: widget.isWatching,
+            onShareNewGame: widget.shareGame,
+            height: widget.footerHeight,
+          ),
         ),
         Align(
           alignment: Alignment.centerRight,
@@ -146,118 +151,6 @@ class _BoardState extends State<Game> {
     );
   }
 
-  Widget renderFooterContent() {
-    if (widget.isWatching) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(widget.shareCode.data ?? '', style: TextStyle(fontSize: 14, color: Colors.white),),
-          Icon(Icons.remove_red_eye, color: Colors.white,),
-        ],
-      );
-    }
-    if (widget.shareCode.isWaiting) {
-      return renderLoader();
-    }
-    if (widget.shareCode.hasError) {
-      return renderTryAgainButton();
-    }
-    if (widget.shareCode.hasData) {
-      return renderShareButton(widget.shareCode.data);
-    }
-    return renderNewShareButton();
-  }
-
-  Widget renderTryAgainButton() {
-    return Footer(
-      height: widget.footerHeight * 2 / 3,
-      onTap: widget.shareGame,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Icon(
-            Icons.warning,
-            color: Colors.white,
-          ),
-          Container(
-            width: 12,
-          ),
-          Text(
-            "Algo deu errado.\nTente novamente.",
-            style: TextStyle(fontSize: 14, color: Colors.white),
-          ),
-          Container(
-            width: 24,
-          ),
-          Icon(
-            Icons.refresh,
-            color: Colors.white,
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget renderShareButton(String shareCode) {
-    return Footer(
-      height: widget.footerHeight * 2 / 3,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(
-            shareCode,
-            style: TextStyle(fontSize: 14, color: Colors.white),
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.content_copy,
-              color: Colors.white,
-            ),
-            splashColor: Colors.white,
-            onPressed: () {
-              Clipboard.setData(ClipboardData(text: shareCode));
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget renderNewShareButton() {
-    return Footer(
-      height: widget.footerHeight * 2 / 3,
-      onTap: widget.shareGame,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(
-            "Compartilhe seu jogo",
-            style: TextStyle(fontSize: 16, color: Colors.white),
-          ),
-          Container(
-            width: 24,
-          ),
-          Icon(
-            Icons.share,
-            color: Colors.white,
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget renderLoader() {
-    return Center(
-      child: Container(
-        height: widget.footerHeight / 3,
-        width: widget.footerHeight / 3,
-        child: CircularProgressIndicator(
-          strokeWidth: widget.footerHeight / 20,
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-        ),
-      ),
-    );
-  }
 
   Widget renderGrid() {
     return Builder(
