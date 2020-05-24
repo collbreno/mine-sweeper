@@ -9,8 +9,7 @@ abstract class BaseAction extends ReduxAction<AppState> {
   HomeState get homeState => state.homeState;
 
   // getters for all BoardState properties
-  int get horizontalTiles => boardState.horizontalTiles;
-  int get verticalTiles => boardState.verticalTiles;
+  BoardSize get boardSize => boardState.boardSize;
   int get numberOfBombs => boardState.numberOfBombs;
   int get tilesToDiscover => boardState.tilesToDiscover;
   GameProgress get gameProgress => boardState.gameProgress;

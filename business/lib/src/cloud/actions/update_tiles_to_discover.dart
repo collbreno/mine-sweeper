@@ -5,7 +5,7 @@ class UpdateTilesToDiscoverAction extends CloudAction {
   @override
   Future<CloudState> reduceCloudState() async {
     if (!shareCode.hasData) return null;
-    var boardSpecs = BoardSpecs(tilesToDiscover: tilesToDiscover);
+    var boardSpecs = BoardCloudSpecs(tilesToDiscover: tilesToDiscover);
     await FirestoreService().updateGame(shareCode.data, boardSpecs);
     return null;
   }

@@ -13,8 +13,7 @@ class GameConnector extends StatelessWidget {
       builder: (BuildContext context, ViewModel vm) {
         return Game(
           secondsElapsed: vm.secondsElapsed,
-          horizontalTiles: vm.horizontalTiles,
-          verticalTiles: vm.verticalTiles,
+          boardSize: vm.boardSize,
           numberOfBombs: vm.numberOfBombs,
           tiles: vm.tiles,
           showDialogEvt: vm.showDialogEvt,
@@ -26,6 +25,7 @@ class GameConnector extends StatelessWidget {
           shareGame: vm.isRemote ? null : vm.shareGame,
           toggleFlag: vm.isRemote ? null : vm.toggleFlag,
           makeAMove: vm.isRemote ? null : vm.makeAMove,
+          cancelListen: vm.stopListenGame,
         );
       },
     );
@@ -35,8 +35,7 @@ class GameConnector extends StatelessWidget {
 class ViewModel extends BaseModel<AppState> {
   ViewModel();
 
-  int verticalTiles;
-  int horizontalTiles;
+  BoardSize boardSize;
   int numberOfBombs;
   List<Tile> tiles;
   void Function(int) makeAMove;
@@ -52,8 +51,7 @@ class ViewModel extends BaseModel<AppState> {
   bool isRemote;
 
   ViewModel.build({
-    @required this.verticalTiles,
-    @required this.horizontalTiles,
+    @required this.boardSize,
     @required this.numberOfBombs,
     @required this.tiles,
     @required this.makeAMove,
@@ -68,8 +66,7 @@ class ViewModel extends BaseModel<AppState> {
     @required this.isRemote,
     @required this.stopListenGame,
   }) : super(equals: [
-      verticalTiles, 
-      horizontalTiles, 
+      boardSize,
       numberOfBombs, 
       secondsElapsed,
       tiles.map((tile) => tile.state),
@@ -85,14 +82,13 @@ class ViewModel extends BaseModel<AppState> {
   ViewModel fromStore() {
     return ViewModel.build(
       secondsElapsed: state.boardState.timeElapsed.inSeconds,
-      horizontalTiles: state.boardState.horizontalTiles,
+      boardSize: state.boardState.boardSize,
       numberOfBombs: state.boardState.numberOfBombs,
       tiles: state.boardState.tiles,
       showDialogEvt: state.boardState.showDialogEvt,
       gameProgress: state.boardState.gameProgress,
       shareCode: state.cloudState.shareCode,
       isRemote: state.cloudState.isRemote,
-      verticalTiles: state.boardState.verticalTiles,
       isSyncing: state.cloudState.syncStatus.isSyncing,
       newGame: () => dispatch(CreateEmptyBoardAction(Difficulty.normal)),
       toggleFlag: (index) => dispatch(ToggleFlagAction(index)),

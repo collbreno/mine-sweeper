@@ -6,7 +6,7 @@ class CloudState {
   final bool isRemote;
   final SyncStatus syncStatus;
   final Event navigateEvt;
-  static Stream<BoardSpecs> gameStream;
+  static Stream<BoardCloudSpecs> gameStream;
 
 
   CloudState({

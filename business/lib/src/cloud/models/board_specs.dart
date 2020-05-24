@@ -1,9 +1,8 @@
 import 'package:business/business.dart';
 
-class BoardSpecs {
-  BoardSpecs({
-    this.horizontalTiles,
-    this.verticalTiles,
+class BoardCloudSpecs {
+  BoardCloudSpecs({
+    this.boardSize,
     this.numberOfBombs,
     this.tilesToDiscover,
     this.tilesContent,
@@ -11,8 +10,7 @@ class BoardSpecs {
     this.gameProgress
   });
 
-  final int horizontalTiles;
-  final int verticalTiles;
+  final BoardSize boardSize;
   final int numberOfBombs;
   final String tilesState;
   final String tilesContent;
@@ -21,8 +19,8 @@ class BoardSpecs {
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{};
-    if (horizontalTiles != null) map['horizontalTiles'] = horizontalTiles;
-    if (verticalTiles != null) map['verticalTiles'] = verticalTiles;
+    if (boardSize != null) map['horizontalTiles'] = boardSize.width;
+    if (boardSize != null) map['verticalTiles'] = boardSize.height;
     if (numberOfBombs != null) map['numberOfBombs'] = numberOfBombs;
     if (tilesContent != null) map['tilesContent'] = tilesContent;
     if (tilesState != null) map['tilesState'] = tilesState;
@@ -31,10 +29,13 @@ class BoardSpecs {
     return map;
   }
 
-  static BoardSpecs fromObject(dynamic o) {
-    return BoardSpecs(
-      horizontalTiles: o['horizontalTiles'],
-      verticalTiles: o['verticalTiles'],
+  static BoardCloudSpecs fromObject(dynamic o) {
+    var boardSize = BoardSize(height: 0, width: 0);
+    if (o['horizontalTiles'] != null && o['verticalTiles'] != null) {
+      boardSize = BoardSize(height: o['verticalTiles'], width: o['horizontalTiles']);
+    }
+    return BoardCloudSpecs(
+      boardSize: boardSize,
       numberOfBombs: o['numberOfBombs'],
       tilesContent: o['tilesContent'],
       tilesState: o['tilesState'],

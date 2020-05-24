@@ -1,8 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:business/business.dart';
 class BoardState {
-  final int horizontalTiles;
-  final int verticalTiles;
+  final BoardSize boardSize;
   final int numberOfBombs;
   final int tilesToDiscover;
   final GameProgress gameProgress;
@@ -11,8 +10,7 @@ class BoardState {
   final Duration timeElapsed;
 
   BoardState({
-    this.horizontalTiles,
-    this.verticalTiles,
+    this.boardSize,
     this.numberOfBombs,
     this.tiles,
     this.showDialogEvt,
@@ -22,8 +20,7 @@ class BoardState {
   });
 
   BoardState copy({
-    int horizontalTiles, 
-    int verticalTiles, 
+    BoardSize boardSize,
     int numberOfBombs, 
     int tilesToDiscover,
     List<Tile>tiles,
@@ -32,9 +29,8 @@ class BoardState {
     GameProgress gameProgress,
   }) {
     return BoardState(
-      horizontalTiles: horizontalTiles ?? this.horizontalTiles,
       numberOfBombs: numberOfBombs ?? this.numberOfBombs,
-      verticalTiles: verticalTiles ?? this.verticalTiles,
+      boardSize: boardSize ?? this.boardSize,
       tilesToDiscover: tilesToDiscover ?? this.tilesToDiscover,
       tiles: tiles ?? this.tiles,
       showDialogEvt: showDialogEvt ?? this.showDialogEvt,
@@ -45,8 +41,7 @@ class BoardState {
 
   static BoardState initialState() =>
     BoardState(
-      horizontalTiles: 0,
-      verticalTiles: 0,
+      boardSize: BoardSize(height: 0, width: 0),
       tilesToDiscover: 0,
       numberOfBombs: 0,
       tiles: List<Tile>(),
@@ -60,8 +55,7 @@ class BoardState {
     identical(this, other) || other is BoardState && runtimeType == other.runtimeType &&
                               tiles == other.tiles && 
                               tiles.map((tile) => tile.content) == other.tiles.map((tile) => tile.content) &&
-                              horizontalTiles == other.horizontalTiles && 
-                              verticalTiles == other.verticalTiles && 
+                              boardSize == other.boardSize &&
                               timeElapsed == other.timeElapsed &&
                               timeElapsed.inMilliseconds == other.timeElapsed.inMilliseconds &&
                               tilesToDiscover == other.tilesToDiscover &&
@@ -69,8 +63,7 @@ class BoardState {
                               numberOfBombs == other.numberOfBombs;
 
   @override
-  int get hashCode => horizontalTiles.hashCode ^ 
-                      verticalTiles.hashCode ^ 
+  int get hashCode => boardSize.hashCode ^
                       numberOfBombs.hashCode ^ 
                       timeElapsed.hashCode ^
                       timeElapsed.inMilliseconds.hashCode ^

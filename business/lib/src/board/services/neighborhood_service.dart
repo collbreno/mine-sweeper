@@ -1,10 +1,9 @@
 import 'package:business/business.dart';
 
 class NeighborhoodService {
-  NeighborhoodService(this.horizontalTiles, this.verticalTiles);
+  NeighborhoodService(this.boardSize);
 
-  final int verticalTiles;
-  final int horizontalTiles;
+  final BoardSize boardSize;
 
   List<int> getNeighborsIndexes(int index){
     // return [5];
@@ -16,11 +15,11 @@ class NeighborhoodService {
 
     if (matrixIndex.i-1 >= 0) iValues.add(matrixIndex.i-1);
     iValues.add(matrixIndex.i);
-    if (matrixIndex.i+1 < verticalTiles) iValues.add(matrixIndex.i+1);
+    if (matrixIndex.i+1 < boardSize.height) iValues.add(matrixIndex.i+1);
 
     if (matrixIndex.j-1 >= 0) jValues.add(matrixIndex.j-1);
     jValues.add(matrixIndex.j);
-    if (matrixIndex.j+1 < horizontalTiles) jValues.add(matrixIndex.j+1);
+    if (matrixIndex.j+1 < boardSize.width) jValues.add(matrixIndex.j+1);
 
     for (int i in iValues){
       for (int j in jValues){
@@ -34,12 +33,12 @@ class NeighborhoodService {
   }
 
   int _getListIndex(MatrixIndex matrixIndex) {
-    return matrixIndex.i * horizontalTiles + matrixIndex.j;
+    return matrixIndex.i * boardSize.width + matrixIndex.j;
   }
 
   MatrixIndex _getMatrixIndex(int listIndex){
-    int i = listIndex ~/ horizontalTiles;
-    int j = listIndex % horizontalTiles;
+    int i = listIndex ~/ boardSize.width;
+    int j = listIndex % boardSize.width;
     return MatrixIndex(i, j);
   }
 

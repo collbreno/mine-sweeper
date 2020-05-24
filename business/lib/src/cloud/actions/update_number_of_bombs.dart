@@ -5,7 +5,7 @@ class UpdateNumberOfBombsAction extends CloudAction {
   @override
   Future<CloudState> reduceCloudState() async {
     if (!shareCode.hasData) return null;
-    var boardSpecs = BoardSpecs(numberOfBombs: numberOfBombs);
+    var boardSpecs = BoardCloudSpecs(numberOfBombs: numberOfBombs);
     await FirestoreService().updateGame(shareCode.data, boardSpecs);
     return null;
   }

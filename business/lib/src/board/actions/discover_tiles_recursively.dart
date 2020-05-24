@@ -5,7 +5,7 @@ import 'package:business/business.dart';
 // Essa ação é disparada quando o usuário clica em uma casa sem bomba e sem bomba na vizinhança
 class DiscoverTilesRecursivelyAction extends BoardAction {
   DiscoverTilesRecursivelyAction(this.index) {
-    _neighborhoodService = NeighborhoodService(boardState.horizontalTiles, boardState.verticalTiles);
+    _neighborhoodService = NeighborhoodService(boardSize);
   }
 
   final int index;

@@ -23,10 +23,10 @@ class ShareGameAction extends CloudAction {
     }
   }
 
-  BoardSpecs _getBoardSpecs() {
-    return BoardSpecs(
-        horizontalTiles: horizontalTiles,
-        numberOfBombs: numberOfBombs,
-        verticalTiles: verticalTiles);
+  BoardCloudSpecs _getBoardSpecs() {
+    return BoardCloudSpecs(
+      boardSize: boardSize,
+      numberOfBombs: numberOfBombs,
+    );
   }
 }

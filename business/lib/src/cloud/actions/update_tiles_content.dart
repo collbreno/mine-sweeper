@@ -6,7 +6,7 @@ class UpdateTilesContentAction extends CloudAction {
   Future<CloudState> reduceCloudState() async {
     if (!shareCode.hasData) return null;
     var tilesContent = ConverterHelper.convertTilesContentToString(tiles);
-    var boardSpecs = BoardSpecs(tilesContent: tilesContent);
+    var boardSpecs = BoardCloudSpecs(tilesContent: tilesContent);
     await FirestoreService().updateGame(shareCode.data, boardSpecs);
     return null;
   }

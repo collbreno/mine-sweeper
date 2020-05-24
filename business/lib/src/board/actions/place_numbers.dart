@@ -3,7 +3,7 @@ import 'package:business/business.dart';
 class PlaceNumbersAction extends BoardAction {
   NeighborhoodService _neighborhoodService;
   PlaceNumbersAction() {
-    _neighborhoodService = NeighborhoodService(boardState.horizontalTiles, boardState.verticalTiles);
+    _neighborhoodService = NeighborhoodService(boardSize);
   }
 
   @override

@@ -5,7 +5,7 @@ import 'package:business/business.dart';
 
 class MakeAMoveOnNeighborsAction extends BoardAction {
   MakeAMoveOnNeighborsAction(this.index){
-    _neighborhoodService = NeighborhoodService(boardState.horizontalTiles, boardState.verticalTiles);
+    _neighborhoodService = NeighborhoodService(boardSize);
   }
 
   final int index;

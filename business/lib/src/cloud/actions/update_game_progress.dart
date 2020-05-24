@@ -5,7 +5,7 @@ class UpdateGameProgressAction extends CloudAction {
   @override
   Future<CloudState> reduceCloudState() async {
     if (!shareCode.hasData) return null;
-    var boardSpecs = BoardSpecs(gameProgress: gameProgress);
+    var boardSpecs = BoardCloudSpecs(gameProgress: gameProgress);
     await FirestoreService().updateGame(shareCode.data, boardSpecs);
     return null;
   }

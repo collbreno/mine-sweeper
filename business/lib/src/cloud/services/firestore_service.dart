@@ -3,7 +3,7 @@ import '../../../business.dart';
 
 class FirestoreService {
 
-  Future<String> createGame(BoardSpecs specs) async {
+  Future<String> createGame(BoardCloudSpecs specs) async {
     final path = '/games';
     final collections = Firestore.instance.collection(path);
     var docRef = collections.document();
@@ -12,12 +12,12 @@ class FirestoreService {
     return docRef.documentID;
   }
 
-  Stream<BoardSpecs> getGameStream(String id) {
+  Stream<BoardCloudSpecs> getGameStream(String id) {
     final path = 'games/$id';
     final docRef = Firestore.instance.document(path);
     final snapshots = docRef.snapshots();
     return snapshots.map((snapshot){
-      return BoardSpecs.fromObject(snapshot.data);
+      return BoardCloudSpecs.fromObject(snapshot.data);
     });
   }
 
@@ -27,7 +27,7 @@ class FirestoreService {
     return doc.exists;
   }
 
-  Future<void> updateGame(String id, BoardSpecs specs) async {
+  Future<void> updateGame(String id, BoardCloudSpecs specs) async {
     final path = 'games/$id';
     var docRef = Firestore.instance.document(path);
     await docRef.setData(specs.toMap(), merge: true);

@@ -13,11 +13,11 @@ class CreateEmptyBoardAction extends BoardAction {
     var tiles = _createEmptyTiles();
     dispatch(ResetTimeElapsedAction());
     dispatch(NewLocalGameAction());
+    var boardSize = _getBoardSize();
     return boardState.copy(
-      horizontalTiles: getHorizontalTiles(),
-      numberOfBombs: getNumberOfBombs(),
-      verticalTiles: getVerticalTiles(), 
-      tilesToDiscover: getVerticalTiles() * getHorizontalTiles() - getNumberOfBombs(),
+      boardSize: boardSize,
+      numberOfBombs: _getNumberOfBombs(),
+      tilesToDiscover: boardSize.total - _getNumberOfBombs(),
       tiles: tiles,
       gameProgress: GameProgress.created,
     );
@@ -27,10 +27,14 @@ class CreateEmptyBoardAction extends BoardAction {
   void after() => dispatch(UpdateGameProgressAction());
 
   List<Tile> _createEmptyTiles(){
-    return List<Tile>.generate(getVerticalTiles()*getHorizontalTiles(), (index) => Tile(content: TileContent.empty, state: TileState.none));
+    return List<Tile>.generate(_getVerticalTiles()*_getHorizontalTiles(), (index) => Tile(content: TileContent.empty, state: TileState.none));
   }
 
-  int getNumberOfBombs() {
+  BoardSize _getBoardSize() {
+    return BoardSize(height: _getVerticalTiles(), width: _getVerticalTiles());
+  }
+
+  int _getNumberOfBombs() {
     var map = <Difficulty, int>{};
     map[Difficulty.easy] = 18;
     map[Difficulty.normal] = 27;
@@ -38,7 +42,7 @@ class CreateEmptyBoardAction extends BoardAction {
     return map[difficulty];
   }
 
-  int getVerticalTiles() {
+  int _getVerticalTiles() {
     var map = <Difficulty, int>{};
     map[Difficulty.easy] = 12;
     map[Difficulty.normal] = 15;
@@ -46,7 +50,7 @@ class CreateEmptyBoardAction extends BoardAction {
     return map[difficulty];
   }
 
-  int getHorizontalTiles() {
+  int _getHorizontalTiles() {
     var map = <Difficulty, int>{};
     map[Difficulty.easy] = 8;
     map[Difficulty.normal] = 10;
