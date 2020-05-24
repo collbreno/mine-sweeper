@@ -1,6 +1,4 @@
-import 'package:async_redux/async_redux.dart';
 import 'package:business/business.dart';
-import 'package:business/src/firebase/actions/update_tiles_state.dart';
 
 
 // Essa ação é disparada quando o usuário clica e pressiona em alguma casa

@@ -12,21 +12,27 @@ import 'components/play_button.dart';
 class Home extends StatefulWidget {
   Home({
     @required this.initGameBoard,
-    @required this.promptDialogIsVisible,
+    @required this.isPromptDialogVisible,
     @required this.navigateEvt,
     @required this.showPromptDialog,
     @required this.checkIfIdExists,
     @required this.shareCode,
     @required this.dismissPromptDialog,
+    @required this.isPlayButtonCollapsed,
+    @required this.collapsePlayButton,
+    @required this.expandPlayButton,
   });
 
   final void Function(Difficulty) initGameBoard;
-  final bool promptDialogIsVisible;
+  final bool isPromptDialogVisible;
+  final bool isPlayButtonCollapsed;
   final Event navigateEvt;
   final void Function() showPromptDialog;
   final void Function() dismissPromptDialog;
   final void Function(String) checkIfIdExists;
   final AsyncData<String> shareCode;
+  final void Function() collapsePlayButton;
+  final void Function() expandPlayButton;
 
   @override
   _HomeState createState() => _HomeState();
@@ -51,18 +57,26 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    BackButtonInterceptor.add(backButtonInterceptor, zIndex: 2);
+    BackButtonInterceptor.add(dismissDialogOnBackButton, zIndex: 2);
+    BackButtonInterceptor.add(collapsePlayButtonOnBackButton, zIndex: 1);
   }
 
   @override
   void dispose() {
-    BackButtonInterceptor.remove(backButtonInterceptor);
+    BackButtonInterceptor.remove(dismissDialogOnBackButton);
+    BackButtonInterceptor.remove(collapsePlayButtonOnBackButton);
     super.dispose();
   }
 
-  bool backButtonInterceptor(bool stopDefaultButtonEvent) {
-    if (stopDefaultButtonEvent || !widget.promptDialogIsVisible || !mounted) return false;
+  bool dismissDialogOnBackButton(bool stopDefaultButtonEvent) {
+    if (stopDefaultButtonEvent || !widget.isPromptDialogVisible) return false;
     widget.dismissPromptDialog();
+    return true;
+  }
+
+  bool collapsePlayButtonOnBackButton(bool stopDefaultButtonEvent) {
+    if (stopDefaultButtonEvent || widget.isPlayButtonCollapsed) return false;
+    widget.collapsePlayButton();
     return true;
   }
 
@@ -81,6 +95,8 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 PlayButton(
                   onDifficultySelected: (d) => onDifficultySelected(d, context),
+                  onExpand: widget.expandPlayButton,
+                  collapsed: widget.isPlayButtonCollapsed,
                 ),
                 Container(
                   height: 20,
@@ -88,7 +104,10 @@ class _HomeState extends State<Home> {
                 HomeButton(
                   title: "Assistir",
                   leading: Icon(Icons.remove_red_eye, color: Colors.white,),
-                  onTap: widget.showPromptDialog,
+                  onTap: (){
+                    widget.collapsePlayButton();
+                    widget.showPromptDialog();
+                  },
                   roundBottomBorder: true,
                   roundTopBorder: true,
                 ),
@@ -96,7 +115,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           Visibility(
-            visible: widget.promptDialogIsVisible,
+            visible: widget.isPromptDialogVisible,
             child: Stack(
               children: <Widget>[
                 ModalBarrier(
@@ -116,6 +135,7 @@ class _HomeState extends State<Home> {
   }
 
   void onDifficultySelected(Difficulty d, context) {
+    widget.collapsePlayButton();
     widget.initGameBoard(d);
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => GameConnector()));

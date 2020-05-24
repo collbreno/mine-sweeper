@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Campo Minado',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

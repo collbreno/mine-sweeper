@@ -1,45 +1,23 @@
-import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:business/business.dart';
 import 'package:client/screens/home/components/home_button.dart';
 import 'package:flutter/material.dart';
 
-class PlayButton extends StatefulWidget {
-  PlayButton({this.onDifficultySelected});
+class PlayButton extends StatelessWidget {
+  PlayButton({
+    this.onDifficultySelected,
+    this.collapsed,
+    this.onExpand,
+  });
 
   final void Function(Difficulty) onDifficultySelected;
-
-  @override
-  _PlayButtonState createState() => _PlayButtonState();
-}
-
-class _PlayButtonState extends State<PlayButton> {
-  bool collapsed = true;
-
-  @override
-  void initState() {
-    super.initState();
-    BackButtonInterceptor.add(backButtonInterceptor, zIndex: 1);
-  }
-
-  @override
-  void dispose() {
-    BackButtonInterceptor.remove(backButtonInterceptor);
-    super.dispose();
-  }
-
-  bool backButtonInterceptor(bool stopDefaultButtonEvent) {
-    if (collapsed || stopDefaultButtonEvent) return false;
-    setState(() {
-      collapsed = true;
-    });
-    return true;
-  }
-
+  final void Function() onExpand;
+  final bool collapsed;
+  
   @override
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
       crossFadeState:
-          collapsed ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      collapsed ? CrossFadeState.showFirst : CrossFadeState.showSecond,
       secondChild: second(),
       firstChild: first(),
       duration: Duration(milliseconds: 300),
@@ -55,7 +33,7 @@ class _PlayButtonState extends State<PlayButton> {
 
   Widget first() {
     return HomeButton(
-      onTap: toggleCollapsed,
+      onTap: onExpand,
       title: 'Jogar',
       leading: Icon(
         Icons.play_arrow,
@@ -72,8 +50,7 @@ class _PlayButtonState extends State<PlayButton> {
       children: <Widget>[
         HomeButton(
           onTap: () {
-            toggleCollapsed();
-            widget.onDifficultySelected(Difficulty.easy);
+            onDifficultySelected(Difficulty.easy);
           },
           title: 'Fácil',
           trailing: Text(
@@ -87,8 +64,7 @@ class _PlayButtonState extends State<PlayButton> {
         ),
         HomeButton(
           onTap: () {
-            toggleCollapsed();
-            widget.onDifficultySelected(Difficulty.normal);
+            onDifficultySelected(Difficulty.normal);
           },
           trailing: Text(
             "10x15",
@@ -101,8 +77,7 @@ class _PlayButtonState extends State<PlayButton> {
         ),
         HomeButton(
           onTap: () {
-            toggleCollapsed();
-            widget.onDifficultySelected(Difficulty.hard);
+            onDifficultySelected(Difficulty.hard);
           },
           trailing: Text(
             "15x20",
@@ -115,9 +90,6 @@ class _PlayButtonState extends State<PlayButton> {
     );
   }
 
-  void toggleCollapsed() {
-    setState(() {
-      collapsed = !collapsed;
-    });
-  }
+  
+  
 }
