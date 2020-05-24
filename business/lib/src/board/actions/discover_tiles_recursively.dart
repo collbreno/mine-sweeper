@@ -4,13 +4,17 @@ import 'package:business/business.dart';
 
 // Essa ação é disparada quando o usuário clica em uma casa sem bomba e sem bomba na vizinhança
 class DiscoverTilesRecursivelyAction extends BoardAction {
-  DiscoverTilesRecursivelyAction(this.index);
+  DiscoverTilesRecursivelyAction(this.index) {
+    _neighborhoodService = NeighborhoodService(boardState.horizontalTiles, boardState.verticalTiles);
+  }
+
   final int index;
+  NeighborhoodService _neighborhoodService;
 
   @override
   BoardState reduceBoardState() {
     dispatch(DiscoverTileAction(index));
-    var neighborIndexes = NeighborhoodService(boardState).getNeighborsIndexes(index);
+    var neighborIndexes = _neighborhoodService.getNeighborsIndexes(index);
     for (int neighborIndex in neighborIndexes){
       var neighbor = tiles.elementAt(neighborIndex);
       if (neighbor.state == TileState.none){

@@ -1,6 +1,11 @@
 import 'package:business/business.dart';
 
 class PlaceNumbersAction extends BoardAction {
+  NeighborhoodService _neighborhoodService;
+  PlaceNumbersAction() {
+    _neighborhoodService = NeighborhoodService(boardState.horizontalTiles, boardState.verticalTiles);
+  }
+
   @override
   BoardState reduceBoardState() {
     var newTiles = _putNumbersOnTiles();
@@ -31,9 +36,9 @@ class PlaceNumbersAction extends BoardAction {
   int _getAmountOfBombsInNeighborhood(int index) {
     var result = 0;
     var validNeighborsIndexes =
-        NeighborhoodService(boardState).getNeighborsIndexes(index);
-    for (var i = 0; i < validNeighborsIndexes.length; i++) {
-      if (tiles.elementAt(validNeighborsIndexes.elementAt(i)).content ==
+        _neighborhoodService.getNeighborsIndexes(index);
+    for (var neighborIndex in validNeighborsIndexes) {
+      if (tiles.elementAt(neighborIndex).content ==
           TileContent.bomb) result++;
     }
     return result;

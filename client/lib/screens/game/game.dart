@@ -3,10 +3,8 @@ import 'dart:math';
 import 'package:async_redux/async_redux.dart';
 import 'package:business/business.dart';
 import 'package:client/screens/game/components/footer/footer.dart';
-import 'file:///C:/Workspace/Coll/mine_sweeper/client/lib/screens/game/components/footer/footer_box.dart';
 import 'package:client/screens/game/tile_specs.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'components/app_bar_item.dart';
 import 'components/defeat_dialog.dart';

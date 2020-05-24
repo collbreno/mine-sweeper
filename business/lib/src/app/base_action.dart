@@ -1,6 +1,5 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:business/business.dart';
-import 'package:business/src/app/models/models.dart';
 
 abstract class BaseAction extends ReduxAction<AppState> {
   // getters for all AppState properties

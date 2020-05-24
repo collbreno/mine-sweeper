@@ -6,8 +6,11 @@ import 'package:business/src/firebase/actions/update_tiles_content.dart';
 
 // Essa ação é disparada quando o usuário clica na sua primeira casa
 class PlaceBombsAction extends BoardAction {
-  PlaceBombsAction(this.indexClicked);
   final int indexClicked;
+  NeighborhoodService _neighborhoodService;
+  PlaceBombsAction(this.indexClicked) {
+    _neighborhoodService = NeighborhoodService(boardState.horizontalTiles, boardState.verticalTiles);
+  }
 
    @override
   BoardState reduceBoardState() {
@@ -21,9 +24,9 @@ class PlaceBombsAction extends BoardAction {
   List<int> _generateBombIndexes(){
     var nTiles = verticalTiles * horizontalTiles;
     var bombIndexes = List<int>.generate(nTiles, (index) => index); //Gera uma lista com todos os indexes possíveis para posicionar bombas
-    var validNeighbors = NeighborhoodService(boardState).getNeighborsIndexes(indexClicked);
-    for (var i = 0; i < validNeighbors.length; i++){
-      bombIndexes.remove(validNeighbors.elementAt(i)); //Remove o index de todos os vizinhos
+    var validNeighbors = _neighborhoodService.getNeighborsIndexes(indexClicked);
+    for (var neighborIndex in validNeighbors){
+      bombIndexes.remove(neighborIndex); //Remove o index de todos os vizinhos
     }
     bombIndexes.remove(indexClicked); //Remove o index da casa clicada pelo usuário
 

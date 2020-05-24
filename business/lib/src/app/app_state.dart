@@ -1,6 +1,6 @@
 
 import 'package:business/src/firebase/models/cloud_state.dart';
-import '../../../business.dart';
+import '../../business.dart';
 
 
 class AppState {

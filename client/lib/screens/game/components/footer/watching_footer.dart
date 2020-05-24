@@ -8,11 +8,20 @@ class WatchingFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     var footerScope = FooterScope.of(context);
     return FooterBox(
-      child:  Row(
+      child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(footerScope.shareCode.data ?? '', style: TextStyle(fontSize: 14, color: Colors.white),),
-          Icon(Icons.remove_red_eye, color: Colors.white,),
+          Text(
+            footerScope.shareCode.data ?? '',
+            style: TextStyle(fontSize: 14, color: Colors.white),
+          ),
+          Container(
+            width: 24,
+          ),
+          Icon(
+            Icons.remove_red_eye,
+            color: Colors.white,
+          ),
         ],
       ),
     );

@@ -4,7 +4,6 @@ import 'package:business/business.dart';
 import 'package:client/screens/game/game_connector.dart';
 import 'package:client/screens/home/components/home_button.dart';
 import 'package:client/screens/home/components/prompt_dialog.dart';
-import 'package:client/screens/home/share_code_specs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +42,6 @@ class _HomeState extends State<Home> {
   void consumeEvents() {
     if (widget.navigateEvt.consume()) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pop(context);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => GameConnector()));
       });
@@ -63,7 +61,7 @@ class _HomeState extends State<Home> {
   }
 
   bool backButtonInterceptor(bool stopDefaultButtonEvent) {
-    if (stopDefaultButtonEvent || !widget.promptDialogIsVisible) return false;
+    if (stopDefaultButtonEvent || !widget.promptDialogIsVisible || !mounted) return false;
     widget.dismissPromptDialog();
     return true;
   }
