@@ -8,7 +8,6 @@ class CloudState {
   final Event navigateEvt;
   static Stream<BoardCloudSpecs> gameStream;
 
-
   CloudState({
     this.shareCode,
     this.isRemote,
@@ -16,12 +15,11 @@ class CloudState {
     this.navigateEvt,
   });
 
-  CloudState copy({
-    bool isRemote,
-    AsyncData<String> shareCode,
-    SyncStatus syncStatus,
-    Event navigateEvt
-  }) {
+  CloudState copy(
+      {bool isRemote,
+      AsyncData<String> shareCode,
+      SyncStatus syncStatus,
+      Event navigateEvt}) {
     return CloudState(
       shareCode: shareCode ?? this.shareCode,
       isRemote: isRemote ?? this.isRemote,
@@ -31,16 +29,11 @@ class CloudState {
   }
 
   static CloudState initialState() => CloudState(
-      shareCode: AsyncData.nothing(),
-      isRemote: false,
-      navigateEvt: Event.spent(),
-      syncStatus: SyncStatus(
-        isSyncingTilesToDiscover: false,
-        isSyncingTilesState: false,
-        isSyncingTilesContent: false,
-        isSyncingNumberOfBombs: false,
-        isSyncingGameProgress: false,
-      ));
+        shareCode: AsyncData.nothing(),
+        isRemote: false,
+        navigateEvt: Event.spent(),
+        syncStatus: SyncStatus(),
+      );
 
   @override
   bool operator ==(Object other) =>

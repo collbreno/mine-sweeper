@@ -4,15 +4,14 @@ import 'package:business/business.dart';
 // Essa ação é disparada quando o usuário clica em uma casa ocupada por um número
 
 class MakeAMoveOnNeighborsAction extends BoardAction {
-  MakeAMoveOnNeighborsAction(this.index){
-    _neighborhoodService = NeighborhoodService(boardSize);
-  }
+  MakeAMoveOnNeighborsAction(this.index);
 
   final int index;
   NeighborhoodService _neighborhoodService;
 
   @override
   BoardState reduceBoardState() {
+    _neighborhoodService = NeighborhoodService(boardSize);
     if (_areAllFlagsMarked()) {
       var neighborsIndexes = _neighborhoodService.getNeighborsIndexes(index);
       for (var neighborIndex in neighborsIndexes){

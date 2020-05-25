@@ -16,6 +16,8 @@ abstract class BaseAction extends ReduxAction<AppState> {
   List<Tile> get tiles => boardState.tiles;
   Event<DialogType> get showDialogEvt => boardState.showDialogEvt;
   Duration get timeElapsed => boardState.timeElapsed;
+  DateTime get startTime => boardState.startTime;
+  DateTime get finishTime => boardState.finishTime;
 
   // getters for all CloudState properties
   bool get isRemote => cloudState.isRemote;

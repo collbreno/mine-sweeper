@@ -27,6 +27,7 @@ class Game extends StatefulWidget {
     @required this.isSyncing,
     @required this.isWatching,
     @required this.cancelListen,
+    @required this.onDispose,
   });
 
   final BoardSize boardSize;
@@ -43,6 +44,7 @@ class Game extends StatefulWidget {
   final void Function() shareGame;
   final bool isSyncing;
   final bool isWatching;
+  final void Function() onDispose;
 
   final double footerHeight = 64;
   final Color backgroundColor = Colors.grey[900];
@@ -61,6 +63,7 @@ class _BoardState extends State<Game> {
   @override
   void dispose() {
     if (widget.isWatching) widget.cancelListen();
+    widget.onDispose();
     super.dispose();
   }
 
@@ -149,34 +152,37 @@ class _BoardState extends State<Game> {
 
 
   Widget renderGrid() {
-    return Builder(
-      builder: (BuildContext context) {
-        return Align(
-          alignment: Alignment.topCenter,
-          child: SizedBox(
-            height: getTileSize(context) * widget.boardSize.height,
-            width: getTileSize(context) * widget.boardSize.width,
-            child: GridView.builder(
-              itemCount: this.widget.tiles.length,
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: widget.boardSize.width,
-                // childAspectRatio: getTileSize(context),
+    if (widget.boardSize != null && widget.boardSize.height > 0 && widget.boardSize.width > 0) {
+      return Builder(
+        builder: (BuildContext context) {
+          return Align(
+            alignment: Alignment.topCenter,
+            child: SizedBox(
+              height: getTileSize(context) * widget.boardSize.height,
+              width: getTileSize(context) * widget.boardSize.width,
+              child: GridView.builder(
+                itemCount: this.widget.tiles.length,
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: widget.boardSize.width,
+                  // childAspectRatio: getTileSize(context),
+                ),
+                itemBuilder: (context, index) {
+                  return TileSpecs(
+                    onPress: handlePress(index),
+                    onLongPress: handleLongPress(index),
+                    tile: widget.tiles.elementAt(index),
+                    gameProgress: widget.gameProgress,
+                    child: TileSquare(),
+                  );
+                },
               ),
-              itemBuilder: (context, index) {
-                return TileSpecs(
-                  onPress: handlePress(index),
-                  onLongPress: handleLongPress(index),
-                  tile: widget.tiles.elementAt(index),
-                  gameProgress: widget.gameProgress,
-                  child: TileSquare(),
-                );
-              },
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    }
+    return Container();
   }
 
   double getTileSize(BuildContext context) {

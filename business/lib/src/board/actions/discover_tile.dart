@@ -18,4 +18,11 @@ class DiscoverTileAction extends BoardAction {
     );
   }
 
+  @override
+  void after() {
+    if (tilesToDiscover <= 0) {
+      dispatch(SetVictoryAction());
+    }
+  }
+
 }

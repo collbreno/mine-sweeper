@@ -26,6 +26,7 @@ class GameConnector extends StatelessWidget {
           toggleFlag: vm.isRemote ? null : vm.toggleFlag,
           makeAMove: vm.isRemote ? null : vm.makeAMove,
           cancelListen: vm.stopListenGame,
+          onDispose: vm.cleanBoard,
         );
       },
     );
@@ -42,6 +43,7 @@ class ViewModel extends BaseModel<AppState> {
   void Function(int) toggleFlag;
   void Function() newGame;
   void Function() stopListenGame;
+  void Function() cleanBoard;
   Event<DialogType> showDialogEvt;
   GameProgress gameProgress;
   int secondsElapsed;
@@ -65,6 +67,7 @@ class ViewModel extends BaseModel<AppState> {
     @required this.isSyncing,
     @required this.isRemote,
     @required this.stopListenGame,
+    @required this.cleanBoard,
   }) : super(equals: [
       boardSize,
       numberOfBombs, 
@@ -95,6 +98,7 @@ class ViewModel extends BaseModel<AppState> {
       makeAMove: (index) => dispatch(MakeAMoveAction(index)),
       shareGame: () => dispatch(ShareGameAction()),
       stopListenGame: () => dispatch(CancelListenGameAction()),
+      cleanBoard: () => dispatch(CleanBoardAction()),
     );
   }
 }

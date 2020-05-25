@@ -3,6 +3,8 @@ export 'update_tiles_state.dart';
 export 'update_number_of_bombs.dart';
 export 'update_tiles_to_discover.dart';
 export 'update_game_progress.dart';
+export 'update_start_time.dart';
+export 'update_finish_time.dart';
 export 'share_game.dart';
 export 'cloud_action.dart';
 export 'new_local_game.dart';

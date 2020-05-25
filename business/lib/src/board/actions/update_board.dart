@@ -10,8 +10,10 @@ class UpdateBoardAction extends BoardAction {
   @override
   BoardState reduceBoardState() {
     return boardState.copy(
-      boardSize: boardSize,
+      boardSize: boardSpecs.boardSize,
       gameProgress: boardSpecs.gameProgress,
+      startTime: boardSpecs.startTime,
+      finishTime: boardSpecs.finishTime,
       numberOfBombs: boardSpecs.numberOfBombs,
       tiles: ConverterHelper.createTilesFromString(boardSpecs.tilesState, boardSpecs.tilesContent)
     );

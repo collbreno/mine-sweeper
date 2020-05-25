@@ -4,13 +4,17 @@ class SyncStatus {
   final bool isSyncingGameProgress;
   final bool isSyncingNumberOfBombs;
   final bool isSyncingTilesToDiscover;
+  final bool isSyncingStartTime;
+  final bool isSyncingFinishTime;
 
   SyncStatus({
-    this.isSyncingTilesState,
-    this.isSyncingTilesContent,
-    this.isSyncingGameProgress,
-    this.isSyncingNumberOfBombs,
-    this.isSyncingTilesToDiscover,
+    this.isSyncingTilesState = false,
+    this.isSyncingTilesContent = false,
+    this.isSyncingGameProgress = false,
+    this.isSyncingNumberOfBombs = false,
+    this.isSyncingTilesToDiscover = false,
+    this.isSyncingStartTime = false,
+    this.isSyncingFinishTime = false,
   });
 
   SyncStatus copy({
@@ -19,19 +23,29 @@ class SyncStatus {
     bool isSyncingGameProgress,
     bool isSyncingNumberOfBombs,
     bool isSyncingTilesToDiscover,
+    bool isSyncingStartTime,
+    bool isSyncingFinishTime,
   }) =>
       SyncStatus(
-        isSyncingGameProgress: isSyncingGameProgress ?? this.isSyncingGameProgress,
-        isSyncingNumberOfBombs: isSyncingNumberOfBombs ?? this.isSyncingNumberOfBombs,
-        isSyncingTilesContent: isSyncingTilesContent ?? this.isSyncingTilesContent,
+        isSyncingGameProgress:
+            isSyncingGameProgress ?? this.isSyncingGameProgress,
+        isSyncingNumberOfBombs:
+            isSyncingNumberOfBombs ?? this.isSyncingNumberOfBombs,
+        isSyncingTilesContent:
+            isSyncingTilesContent ?? this.isSyncingTilesContent,
         isSyncingTilesState: isSyncingTilesState ?? this.isSyncingTilesState,
-        isSyncingTilesToDiscover: isSyncingTilesToDiscover ?? this.isSyncingTilesToDiscover,
+        isSyncingTilesToDiscover:
+            isSyncingTilesToDiscover ?? this.isSyncingTilesToDiscover,
+        isSyncingStartTime: isSyncingStartTime ?? this.isSyncingStartTime,
+        isSyncingFinishTime: isSyncingFinishTime ?? this.isSyncingFinishTime,
       );
 
   bool get isSyncing =>
       isSyncingGameProgress ||
       isSyncingTilesContent ||
       isSyncingTilesState ||
+      isSyncingFinishTime ||
+      isSyncingStartTime ||
       isSyncingNumberOfBombs ||
       isSyncingTilesToDiscover;
 }

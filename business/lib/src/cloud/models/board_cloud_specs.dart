@@ -1,4 +1,5 @@
 import 'package:business/business.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BoardCloudSpecs {
   BoardCloudSpecs({
@@ -7,7 +8,9 @@ class BoardCloudSpecs {
     this.tilesToDiscover,
     this.tilesContent,
     this.tilesState,
-    this.gameProgress
+    this.gameProgress,
+    this.startTime,
+    this.finishTime,
   });
 
   final BoardSize boardSize;
@@ -16,6 +19,8 @@ class BoardCloudSpecs {
   final String tilesContent;
   final int tilesToDiscover;
   final GameProgress gameProgress;
+  final DateTime startTime;
+  final DateTime finishTime;
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{};
@@ -26,6 +31,8 @@ class BoardCloudSpecs {
     if (tilesState != null) map['tilesState'] = tilesState;
     if (tilesToDiscover != null) map['tilesToDiscover'] = tilesToDiscover;
     if (gameProgress != null) map['gameProgress'] = gameProgress.index;
+    if (startTime != null) map['startTime'] = startTime;
+    if (finishTime != null) map['finishTime'] = finishTime;
     return map;
   }
 
@@ -40,6 +47,8 @@ class BoardCloudSpecs {
       tilesContent: o['tilesContent'],
       tilesState: o['tilesState'],
       tilesToDiscover: o['tilesToDiscover'],
+      startTime: o['startTime']?.toDate(),
+      finishTime: o['finishTime']?.toDate(),
       gameProgress: GameProgress.values.elementAt(o['gameProgress']),
     );
   }

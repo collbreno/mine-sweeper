@@ -9,7 +9,6 @@ class InitializeBoardAction extends BoardAction {
 
    @override
   BoardState reduceBoardState() {
-    dispatch(WaitVictoryAndShowDialogAction());
     dispatch(PlaceBombsAction(indexClicked));
     dispatch(PlaceNumbersAction());
     dispatch(StartStopwatchAction());

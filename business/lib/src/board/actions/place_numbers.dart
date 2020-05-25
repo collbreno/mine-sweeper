@@ -2,12 +2,11 @@ import 'package:business/business.dart';
 
 class PlaceNumbersAction extends BoardAction {
   NeighborhoodService _neighborhoodService;
-  PlaceNumbersAction() {
-    _neighborhoodService = NeighborhoodService(boardSize);
-  }
+  PlaceNumbersAction();
 
   @override
   BoardState reduceBoardState() {
+    _neighborhoodService = NeighborhoodService(boardSize);
     var newTiles = _putNumbersOnTiles();
     return boardState.copy(
       tiles: newTiles,

@@ -1,12 +1,14 @@
 import 'package:business/business.dart';
 
-class WaitVictoryAndShowDialogAction extends BoardAction {
+class SetVictoryAction extends BoardAction {
 @override
-  Future<BoardState> reduceBoardState() async {
-    await store.waitCondition((state) => tilesToDiscover <= 0 );
+  BoardState reduceBoardState() {
+  dispatch(UpdateFinishTimeAction());
     dispatch(ShowDialogAction(DialogType.victory));
     StopwatchService().stop();
-    return null;
+    return boardState.copy(
+      gameProgress: GameProgress.user_won
+    );
   }
 
   @override

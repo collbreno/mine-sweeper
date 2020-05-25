@@ -1,5 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:business/business.dart';
+
 class BoardState {
   final BoardSize boardSize;
   final int numberOfBombs;
@@ -8,6 +9,8 @@ class BoardState {
   final List<Tile> tiles;
   final Event<DialogType> showDialogEvt;
   final Duration timeElapsed;
+  DateTime startTime;
+  DateTime finishTime;
 
   BoardState({
     this.boardSize,
@@ -17,16 +20,20 @@ class BoardState {
     this.tilesToDiscover,
     this.timeElapsed,
     this.gameProgress,
+    this.startTime,
+    this.finishTime,
   });
 
   BoardState copy({
     BoardSize boardSize,
-    int numberOfBombs, 
+    int numberOfBombs,
     int tilesToDiscover,
-    List<Tile>tiles,
+    List<Tile> tiles,
     Event<DialogType> showDialogEvt,
     Duration timeElapsed,
     GameProgress gameProgress,
+    DateTime startTime,
+    DateTime finishTime,
   }) {
     return BoardState(
       numberOfBombs: numberOfBombs ?? this.numberOfBombs,
@@ -36,45 +43,56 @@ class BoardState {
       showDialogEvt: showDialogEvt ?? this.showDialogEvt,
       timeElapsed: timeElapsed ?? this.timeElapsed,
       gameProgress: gameProgress ?? this.gameProgress,
+      startTime: startTime ?? this.startTime,
+      finishTime: finishTime ?? this.finishTime,
     );
   }
 
-  static BoardState initialState() =>
-    BoardState(
-      boardSize: BoardSize(height: 0, width: 0),
-      tilesToDiscover: 0,
-      numberOfBombs: 0,
-      tiles: List<Tile>(),
-      gameProgress: GameProgress.none,
-      showDialogEvt: Event<DialogType>.spent(),
-      timeElapsed: Duration(),
-    );
+  static BoardState initialState() => BoardState(
+        boardSize: BoardSize(height: 0, width: 0),
+        tilesToDiscover: 0,
+        numberOfBombs: 0,
+        tiles: List<Tile>(),
+        gameProgress: GameProgress.none,
+        showDialogEvt: Event<DialogType>.spent(),
+        timeElapsed: Duration(),
+        startTime: null,
+        finishTime: null,
+      );
 
   @override
-  bool operator ==(Object other) => 
-    identical(this, other) || other is BoardState && runtimeType == other.runtimeType &&
-                              tiles == other.tiles && 
-                              tiles.map((tile) => tile.content) == other.tiles.map((tile) => tile.content) &&
-                              boardSize == other.boardSize &&
-                              timeElapsed == other.timeElapsed &&
-                              timeElapsed.inMilliseconds == other.timeElapsed.inMilliseconds &&
-                              tilesToDiscover == other.tilesToDiscover &&
-                              gameProgress == other.gameProgress &&
-                              numberOfBombs == other.numberOfBombs;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BoardState &&
+          runtimeType == other.runtimeType &&
+          tiles == other.tiles &&
+          tiles.map((tile) => tile.content) ==
+              other.tiles.map((tile) => tile.content) &&
+          boardSize == other.boardSize &&
+          timeElapsed == other.timeElapsed &&
+          startTime == other.startTime &&
+          finishTime == other.finishTime &&
+          timeElapsed.inMilliseconds == other.timeElapsed.inMilliseconds &&
+          tilesToDiscover == other.tilesToDiscover &&
+          gameProgress == other.gameProgress &&
+          numberOfBombs == other.numberOfBombs;
 
   @override
-  int get hashCode => boardSize.hashCode ^
-                      numberOfBombs.hashCode ^ 
-                      timeElapsed.hashCode ^
-                      timeElapsed.inMilliseconds.hashCode ^
-                      tilesToDiscover.hashCode ^
-                      gameProgress.hashCode ^
-                      tiles.map((tile) => tile.content).hashCode ^
-                      tiles.map((tile) => tile.state).hashCode;
+  int get hashCode =>
+      boardSize.hashCode ^
+      numberOfBombs.hashCode ^
+      timeElapsed.hashCode ^
+      timeElapsed.inMilliseconds.hashCode ^
+      tilesToDiscover.hashCode ^
+      gameProgress.hashCode ^
+      startTime.hashCode ^
+      finishTime.hashCode ^
+      tiles.map((tile) => tile.content).hashCode ^
+      tiles.map((tile) => tile.state).hashCode;
 }
 
 enum Difficulty {
   easy,
-  normal, 
-  hard
+  normal,
+  hard,
 }

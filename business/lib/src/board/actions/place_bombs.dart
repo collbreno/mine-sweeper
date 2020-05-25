@@ -6,12 +6,11 @@ import 'package:business/business.dart';
 class PlaceBombsAction extends BoardAction {
   final int indexClicked;
   NeighborhoodService _neighborhoodService;
-  PlaceBombsAction(this.indexClicked) {
-    _neighborhoodService = NeighborhoodService(boardSize);
-  }
+  PlaceBombsAction(this.indexClicked);
 
    @override
   BoardState reduceBoardState() {
+     _neighborhoodService = NeighborhoodService(boardSize);
     var bombIndexes = _generateBombIndexes();
     var tiles = _generateTilesWithBombs(bombIndexes);
     return boardState.copy(

@@ -6,6 +6,7 @@ class ExplodeBombsAction extends BoardAction {
 
   @override
   BoardState reduceBoardState() {
+    dispatch(UpdateFinishTimeAction());
     StopwatchService().stop();
     return boardState.copy(
       gameProgress: GameProgress.user_lost,

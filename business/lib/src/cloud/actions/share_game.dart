@@ -12,15 +12,12 @@ class ShareGameAction extends CloudAction {
 
   @override
   void after() {
-    if (gameProgress == GameProgress.inProgress ||
-        gameProgress == GameProgress.user_lost ||
-        gameProgress == GameProgress.user_won) {
-      dispatch(UpdateTilesStateAction());
-      dispatch(UpdateTilesContentAction());
-      dispatch(UpdateTilesToDiscoverAction());
-      dispatch(UpdateNumberOfBombsAction());
-      dispatch(UpdateGameProgressAction());
-    }
+    dispatch(UpdateTilesContentAction());
+    dispatch(UpdateStartTimeAction());
+    dispatch(UpdateTilesStateAction());
+    dispatch(UpdateTilesToDiscoverAction());
+    dispatch(UpdateNumberOfBombsAction());
+    dispatch(UpdateGameProgressAction());
   }
 
   BoardCloudSpecs _getBoardSpecs() {

@@ -31,7 +31,7 @@ class CreateEmptyBoardAction extends BoardAction {
   }
 
   BoardSize _getBoardSize() {
-    return BoardSize(height: _getVerticalTiles(), width: _getVerticalTiles());
+    return BoardSize(height: _getVerticalTiles(), width: _getHorizontalTiles());
   }
 
   int _getNumberOfBombs() {
