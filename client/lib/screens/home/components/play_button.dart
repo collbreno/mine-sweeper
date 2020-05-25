@@ -52,9 +52,9 @@ class PlayButton extends StatelessWidget {
           onTap: () {
             onDifficultySelected(Difficulty.easy);
           },
-          title: 'Fácil',
+          title: _getButtonText(Difficulty.easy),
           trailing: Text(
-            "8x12",
+            _getButtonTrailingText(Difficulty.easy),
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
           ),
           roundTopBorder: true,
@@ -67,10 +67,10 @@ class PlayButton extends StatelessWidget {
             onDifficultySelected(Difficulty.normal);
           },
           trailing: Text(
-            "10x15",
+            _getButtonTrailingText(Difficulty.normal),
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
           ),
-          title: 'Médio',
+          title: _getButtonText(Difficulty.normal),
         ),
         Container(
           height: 0.2,
@@ -80,14 +80,27 @@ class PlayButton extends StatelessWidget {
             onDifficultySelected(Difficulty.hard);
           },
           trailing: Text(
-            "15x20",
+            _getButtonTrailingText(Difficulty.hard),
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
           ),
-          title: 'Difícil',
+          title: _getButtonText(Difficulty.hard),
           roundBottomBorder: true,
         ),
       ],
     );
+  }
+
+  String _getButtonText(Difficulty difficulty) {
+    var map = <Difficulty, String>{};
+    map[Difficulty.easy] = 'Fácil';
+    map[Difficulty.normal] = 'Normal';
+    map[Difficulty.hard] = 'Difícil';
+    return map[difficulty];
+  }
+
+  String _getButtonTrailingText(Difficulty difficulty) {
+    var size = BoardSize.of(difficulty);
+    return "${size.width}x${size.height}";
   }
 
   
