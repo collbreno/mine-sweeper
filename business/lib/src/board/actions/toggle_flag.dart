@@ -9,10 +9,11 @@ class ToggleFlagAction extends BoardAction {
 
   @override
   BoardState reduceBoardState() {
-    if (gameProgress != GameProgress.inProgress) return null; // Só deixa marcar bandeiras quando o jogo estiver em progresso
+    if (gameProgress != GameProgress.inProgress) return null;
     var newTiles = tiles;
     var tileClicked = newTiles.elementAt(index);
     var isAlreadyMarked = tileClicked.state == TileState.flag;
+    if (!isAlreadyMarked && numberOfBombs <= 0) return null;
     var newTile = Tile(content: tileClicked.content, state: isAlreadyMarked ? TileState.none : TileState.flag);
     newTiles.replaceRange(index, index+1, [newTile]);
     return boardState.copy(

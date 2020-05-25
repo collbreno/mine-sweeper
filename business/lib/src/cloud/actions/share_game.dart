@@ -14,6 +14,7 @@ class ShareGameAction extends CloudAction {
   void after() {
     dispatch(UpdateTilesContentAction());
     dispatch(UpdateStartTimeAction());
+    dispatch(UpdateFinishTimeAction());
     dispatch(UpdateTilesStateAction());
     dispatch(UpdateTilesToDiscoverAction());
     dispatch(UpdateNumberOfBombsAction());

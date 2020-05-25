@@ -91,8 +91,3 @@ class BoardState {
       tiles.map((tile) => tile.state).hashCode;
 }
 
-enum Difficulty {
-  easy,
-  normal,
-  hard,
-}

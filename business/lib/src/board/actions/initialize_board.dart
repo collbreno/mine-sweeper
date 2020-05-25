@@ -1,4 +1,3 @@
-import 'package:async_redux/async_redux.dart';
 import 'package:business/business.dart';
 
 
@@ -21,6 +20,7 @@ class InitializeBoardAction extends BoardAction {
   void after() {
      dispatch(UpdateTilesContentAction());
      dispatch(UpdateGameProgressAction());
+     dispatch(UpdateStartTimeAction());
   }
 
 

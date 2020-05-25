@@ -10,6 +10,7 @@ class ExplodeBombsAction extends BoardAction {
     StopwatchService().stop();
     return boardState.copy(
       gameProgress: GameProgress.user_lost,
+      finishTime: DateTime.now(),
       showDialogEvt: Event<DialogType>(DialogType.defeat)
     );
   }

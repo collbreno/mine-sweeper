@@ -4,8 +4,8 @@ class UpdateFinishTimeAction extends CloudAction {
 
   @override
   Future<CloudState> reduceCloudState() async {
-    if (!shareCode.hasData) return null;
-    var boardSpecs = BoardCloudSpecs(finishTime: DateTime.now());
+    if (!shareCode.hasData || finishTime == null) return null;
+    var boardSpecs = BoardCloudSpecs(finishTime: finishTime);
     await FirestoreService().updateGame(shareCode.data, boardSpecs);
     return null;
   }

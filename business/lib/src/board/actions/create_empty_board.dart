@@ -1,4 +1,3 @@
-import 'package:async_redux/async_redux.dart';
 import 'package:business/business.dart';
 
 
@@ -7,17 +6,18 @@ class CreateEmptyBoardAction extends BoardAction {
   CreateEmptyBoardAction(this.difficulty);
   // CreateEmptyBoardAction({this.numberOfBombs, this.horizontalTiles, this.verticalTiles});
   final Difficulty difficulty;
+  BoardSize _boardSize;
 
   @override
   BoardState reduceBoardState() {
+    _boardSize = BoardSize.of(difficulty);
     var tiles = _createEmptyTiles();
     dispatch(ResetTimeElapsedAction());
     dispatch(NewLocalGameAction());
-    var boardSize = _getBoardSize();
     return boardState.copy(
-      boardSize: boardSize,
+      boardSize: _boardSize,
       numberOfBombs: _getNumberOfBombs(),
-      tilesToDiscover: boardSize.total - _getNumberOfBombs(),
+      tilesToDiscover: _boardSize.total - _getNumberOfBombs(),
       tiles: tiles,
       gameProgress: GameProgress.created,
     );
@@ -27,12 +27,9 @@ class CreateEmptyBoardAction extends BoardAction {
   void after() => dispatch(UpdateGameProgressAction());
 
   List<Tile> _createEmptyTiles(){
-    return List<Tile>.generate(_getVerticalTiles()*_getHorizontalTiles(), (index) => Tile(content: TileContent.empty, state: TileState.none));
+    return List<Tile>.generate(_boardSize.total, (index) => Tile(content: TileContent.empty, state: TileState.none));
   }
 
-  BoardSize _getBoardSize() {
-    return BoardSize(height: _getVerticalTiles(), width: _getHorizontalTiles());
-  }
 
   int _getNumberOfBombs() {
     var map = <Difficulty, int>{};
@@ -42,20 +39,5 @@ class CreateEmptyBoardAction extends BoardAction {
     return map[difficulty];
   }
 
-  int _getVerticalTiles() {
-    var map = <Difficulty, int>{};
-    map[Difficulty.easy] = 12;
-    map[Difficulty.normal] = 15;
-    map[Difficulty.hard] = 20;
-    return map[difficulty];
-  }
-
-  int _getHorizontalTiles() {
-    var map = <Difficulty, int>{};
-    map[Difficulty.easy] = 8;
-    map[Difficulty.normal] = 10;
-    map[Difficulty.hard] = 15;
-    return map[difficulty];
-  }
 
 }

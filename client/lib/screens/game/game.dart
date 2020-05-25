@@ -26,7 +26,6 @@ class Game extends StatefulWidget {
     @required this.shareGame,
     @required this.isSyncing,
     @required this.isWatching,
-    @required this.cancelListen,
     @required this.onDispose,
   });
 
@@ -36,7 +35,6 @@ class Game extends StatefulWidget {
   final void Function(int) toggleFlag;
   final void Function(int) makeAMove;
   final void Function() newGame;
-  final void Function() cancelListen;
   final GameProgress gameProgress;
   final Event<DialogType> showDialogEvt;
   final int secondsElapsed;
@@ -62,7 +60,6 @@ class _BoardState extends State<Game> {
 
   @override
   void dispose() {
-    if (widget.isWatching) widget.cancelListen();
     widget.onDispose();
     super.dispose();
   }

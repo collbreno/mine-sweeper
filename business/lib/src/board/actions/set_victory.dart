@@ -1,17 +1,19 @@
 import 'package:business/business.dart';
 
 class SetVictoryAction extends BoardAction {
-@override
+  @override
   BoardState reduceBoardState() {
-  dispatch(UpdateFinishTimeAction());
     dispatch(ShowDialogAction(DialogType.victory));
     StopwatchService().stop();
     return boardState.copy(
-      gameProgress: GameProgress.user_won
+      gameProgress: GameProgress.user_won,
+      finishTime: DateTime.now(),
     );
   }
 
   @override
-  void after() => dispatch(UpdateGameProgressAction());
-
+  void after() {
+    dispatch(UpdateGameProgressAction());
+    dispatch(UpdateFinishTimeAction());
+  }
 }

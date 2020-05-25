@@ -11,7 +11,6 @@ export 'new_local_game.dart';
 export 'set_sync_status.dart';
 export 'set_share_code_to_error.dart';
 export 'set_share_code_to_loading.dart';
-export 'cancel_listen_game.dart';
 export 'check_if_game_exists.dart';
 export 'start_listen_game.dart';
 export 'navigate_to_game_screen.dart';

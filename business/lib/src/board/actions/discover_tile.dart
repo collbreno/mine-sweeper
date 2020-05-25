@@ -1,4 +1,3 @@
-import 'package:async_redux/async_redux.dart';
 import 'package:business/business.dart';
 
 // Essa ação é disparada quando o usuário clica em uma casa sem bomba
